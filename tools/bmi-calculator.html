@@ -1,1 +1,248 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>BMI Calculator Online Free – Metric & Imperial | Zaberz</title>
+<meta name="description" content="Free online BMI calculator. Supports metric (kg/cm) and imperial (lb/ft-in) units, with a visual BMI gauge and your healthy weight range.">
+<meta name="keywords" content="bmi calculator, body mass index calculator, healthy weight calculator, bmi calculator kg cm, bmi calculator lbs">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/tools/bmi-calculator.html">
+
+<meta property="og:title" content="BMI Calculator | Zaberz">
+<meta property="og:description" content="Calculate your Body Mass Index instantly with a visual gauge and healthy weight range. Free, fast, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/bmi-calculator.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://zaberz.com/index.html#calculators"},
+    {"@type": "ListItem", "position": 3, "name": "BMI Calculator", "item": "https://zaberz.com/tools/bmi-calculator.html"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BMI Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a healthy BMI range?",
+      "acceptedAnswer": {"@type": "Answer", "text": "According to WHO standards, a BMI between 18.5 and 24.9 is considered a normal, healthy weight range for most adults."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is BMI accurate for everyone?",
+      "acceptedAnswer": {"@type": "Answer", "text": "BMI is a general screening tool and doesn't distinguish between muscle and fat. It may be less accurate for athletes, older adults, pregnant women, or very muscular individuals. Consult a healthcare provider for a personalized assessment."}
+    },
+    {
+      "@type": "Question",
+      "name": "How is BMI calculated?",
+      "acceptedAnswer": {"@type": "Answer", "text": "BMI is calculated as weight in kilograms divided by height in meters squared, or as 703 times weight in pounds divided by height in inches squared."}
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> All Tools
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#calculators">Calculators</a> /
+  <span aria-current="page">BMI Calculator</span>
+</nav>
+
+<header class="tool-header">
+  <h1>BMI Calculator</h1>
+  <p>Calculate your Body Mass Index in metric or imperial units, with a visual gauge and your healthy weight range.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+
+    <div class="unit-toggle-row">
+      <label class="toggle-option">
+        <input type="radio" name="unit" id="unitMetric" checked>
+        <span>Metric (kg / cm)</span>
+      </label>
+      <label class="toggle-option">
+        <input type="radio" name="unit" id="unitImperial">
+        <span>Imperial (lb / ft-in)</span>
+      </label>
+    </div>
+
+    <div id="metricFields">
+      <div class="field-group">
+        <label for="weight">Weight (kg)</label>
+        <input type="number" id="weight" class="url-input" placeholder="e.g. 68" min="0">
+      </div>
+      <div class="field-group">
+        <label for="height">Height (cm)</label>
+        <input type="number" id="height" class="url-input" placeholder="e.g. 172" min="0">
+      </div>
+    </div>
+
+    <div id="imperialFields" class="hidden">
+      <div class="field-group">
+        <label for="weightLb">Weight (lb)</label>
+        <input type="number" id="weightLb" class="url-input" placeholder="e.g. 150" min="0">
+      </div>
+      <div class="field-group">
+        <label>Height</label>
+        <div class="field-row">
+          <input type="number" id="heightFt" class="url-input" placeholder="Feet" min="0">
+          <input type="number" id="heightIn" class="url-input" placeholder="Inches" min="0">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" id="calcBtn">Calculate BMI</button>
+
+    <div class="bmi-result" id="bmiResultBox" style="display:none;">
+      <span class="bmi-value" id="bmiValue">0</span>
+      <div class="bmi-category" id="bmiCategory">&mdash;</div>
+
+      <div class="bmi-gauge">
+        <div class="bmi-gauge-track">
+          <div class="bmi-gauge-marker" id="bmiMarker"></div>
+        </div>
+        <div class="bmi-gauge-labels">
+          <span>Underweight</span>
+          <span>Normal</span>
+          <span>Overweight</span>
+          <span>Obese</span>
+        </div>
+      </div>
+
+      <div class="bmi-range-note" id="bmiRangeNote"></div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Tool</h2>
+    <p>The Zaberz BMI Calculator estimates your Body Mass Index using the WHO-standard formula, supporting both metric and imperial units. It shows your result on a visual gauge alongside the healthy weight range for your height. <strong>Note:</strong> BMI is a general screening measure and doesn't account for muscle mass, bone density, age, or sex &mdash; it isn't a diagnosis. For personalized health advice, please consult a doctor or qualified healthcare provider.</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Choose Metric or Imperial units.</li>
+      <li><span class="step-num">2</span> Enter your weight and height.</li>
+      <li><span class="step-num">3</span> Click Calculate to see your BMI, category, and healthy weight range.</li>
+    </ol>
+  </section>
+
+  <section class="info-section" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What is a healthy BMI range?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>According to WHO standards, a BMI between 18.5 and 24.9 is considered a normal, healthy weight range for most adults.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Is BMI accurate for everyone?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>BMI is a general screening tool and doesn't distinguish between muscle and fat. It may be less accurate for athletes, older adults, pregnant women, or very muscular individuals. Consult a healthcare provider for a personalized assessment.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        How is BMI calculated?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>BMI is calculated as weight in kilograms divided by height in meters squared, or as 703 times weight in pounds divided by height in inches squared.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section related-tools">
+    <h2>Related Tools</h2>
+    <div class="grid">
+      <a class="card" href="age-calculator.html">
+        <span class="card-icon" data-lucide="cake"></span>
+        <span class="card-title">Age Calculator</span>
+        <span class="card-desc">Find your exact age in seconds</span>
+      </a>
+      <a class="card" href="loan-calculator.html">
+        <span class="card-icon" data-lucide="landmark"></span>
+        <span class="card-title">Loan Calculator</span>
+        <span class="card-desc">Estimate EMI &amp; interest payments</span>
+      </a>
+      <a class="card" href="random-number.html">
+        <span class="card-icon" data-lucide="dices"></span>
+        <span class="card-title">Random Number</span>
+        <span class="card-desc">Generate random numbers in a range</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="../script.js" defer></script>
+<script src="bmi-calculator.js" defer></script>
+</body>
+</html>
