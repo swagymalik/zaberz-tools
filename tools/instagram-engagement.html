@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Instagram Engagement Rate Calculator — Check Profile Engagement | Zaberz</title>
+<meta name="description" content="Calculate Instagram engagement rate instantly. Enter followers, likes & comments to see your ER. Free tool for influencers & marketers by Zaberz!">
+<meta name="keywords" content="instagram engagement calculator, engagement rate checker, ER calculator, influencer engagement, social media tool">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="canonical" href="https://zaberz.com/tools/instagram-engagement.html">
+<meta property="og:title" content="Instagram Engagement Rate Calculator | Zaberz">
+<meta property="og:description" content="Calculate your Instagram engagement rate. Enter followers, likes & comments for instant results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 12px; color: #8892b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .input-group input { padding: 12px; background: #0f1528; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #e8ecf4; font-size: 16px; }
+  .result-box { margin-top: 20px; text-align: center; }
+  .er-display { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .gauge-bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,0.1); margin: 12px 0; overflow: hidden; }
+  .gauge-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #ef4444, #fbbf24, #22c55e); transition: width 0.5s; }
+  .rating { font-size: 16px; font-weight: 700; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav"><div class="logo">Zaberz<span class="logo-dot">.</span></div><a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> All Tools</a></nav>
+<nav class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#social-tools">Social Tools</a> / <span>IG Engagement</span></nav>
+<header class="tool-header"><h1>📊 Instagram Engagement Calculator</h1><p>Find out how engaging your profile really is!</p></header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="form-grid">
+      <div class="input-group"><label>Followers</label><input type="number" id="followers" placeholder="10000"></div>
+      <div class="input-group"><label>Avg Likes per Post</label><input type="number" id="likes" placeholder="500"></div>
+      <div class="input-group"><label>Avg Comments per Post</label><input type="number" id="comments" placeholder="50"></div>
+    </div>
+    <button class="btn btn-primary" id="calcBtn" style="width:100%; margin-top:16px;">📈 Calculate Engagement</button>
+    <div class="result-box" id="resultArea" style="display:none;">
+      <h3 style="color:#e8ecf4;">Your Engagement Rate</h3>
+      <div class="er-display" id="erValue">0%</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="gaugeFill" style="width:0%;"></div></div>
+      <div class="rating" id="ratingText"></div>
+      <p style="color:#8892b8; font-size:13px; margin-top:8px;" id="breakdown"></p>
+    </div>
+  </div>
+  <section class="info-section"><h2>About</h2><p>The Engagement Rate (ER) measures how actively your audience interacts with your content. A higher ER means stronger connection. This tool calculates ER by post using the formula: <strong>((Likes + Comments) / Followers) × 100</strong>. Use it to benchmark your Instagram performance!</p></section>
+</main>
+<footer><div class="logo">Zaberz<span class="logo-dot">.</span></div><p>&copy; 2026 Zaberz.com</p></footer>
+<script src="../script.js" defer></script>
+<script>
+(function(){
+  const calcBtn = document.getElementById('calcBtn');
+  const followers = document.getElementById('followers');
+  const likes = document.getElementById('likes');
+  const comments = document.getElementById('comments');
+  const resultArea = document.getElementById('resultArea');
+  const erValue = document.getElementById('erValue');
+  const gaugeFill = document.getElementById('gaugeFill');
+  const ratingText = document.getElementById('ratingText');
+  const breakdown = document.getElementById('breakdown');
+
+  function calculate() {
+    const f = parseInt(followers.value) || 0;
+    const l = parseInt(likes.value) || 0;
+    const c = parseInt(comments.value) || 0;
+    if (f <= 0) {
+      alert('Please enter followers count');
+      return;
+    }
+    const total = l + c;
+    const er = ((total / f) * 100).toFixed(2);
+    erValue.textContent = er + '%';
+    const gaugeWidth = Math.min(er * 20, 100); // 5% ER = full bar
+    gaugeFill.style.width = gaugeWidth + '%';
+    let rating = '';
+    if (er < 1) rating = '🔴 Low — needs improvement';
+    else if (er < 3) rating = '🟡 Average — good start';
+    else if (er < 6) rating = '🟢 High — very engaging';
+    else rating = '🔥 Excellent — influencer level!';
+    ratingText.textContent = rating;
+    breakdown.innerHTML = `Based on <strong>${f.toLocaleString()}</strong> followers, <strong>${l.toLocaleString()}</strong> likes & <strong>${c.toLocaleString()}</strong> comments per post.`;
+    resultArea.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', calculate);
+})();
+</script>
+</body>
+</html>

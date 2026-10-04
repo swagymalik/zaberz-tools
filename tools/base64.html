@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Base64 Encoder & Decoder Online Free – Text & File to Base64 | Zaberz</title>
+<meta name="description" content="Free online Base64 encoder and decoder. Convert text or files (images, PDFs) to Base64 and back instantly. Supports Unicode & URL-safe encoding.">
+<meta name="keywords" content="base64 encoder, base64 decoder, base64 to text, file to base64, image to base64, base64 converter online">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/tools/base64.html">
+
+<meta property="og:title" content="Base64 Encoder & Decoder | Zaberz">
+<meta property="og:description" content="Convert text or files to Base64 and back instantly. Free, fast, no signup, Unicode-safe.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/base64.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Text Tools", "item": "https://zaberz.com/index.html#text-tools"},
+    {"@type": "ListItem", "position": 3, "name": "Base64 Encoder", "item": "https://zaberz.com/tools/base64.html"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Base64 Encoder & Decoder",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Base64 encoding used for?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Base64 encoding converts binary data, such as images or files, into plain text so it can be safely embedded in places that only support text, like HTML, CSS, JSON, or email."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is Base64 the same as encryption?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. Base64 is only an encoding format, not encryption. Anyone can decode Base64 text instantly, so it should never be used to protect sensitive information."}
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert an image to Base64?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes, use the file upload section on this page to convert any image or file into a Base64 string, optionally including the data URI prefix for direct use in HTML or CSS."}
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> All Tools
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#text-tools">Text Tools</a> /
+  <span aria-current="page">Base64 Encoder</span>
+</nav>
+
+<header class="tool-header">
+  <h1>Base64 Encoder &amp; Decoder</h1>
+  <p>Convert text or files to Base64 and back &mdash; Unicode-safe, with optional URL-safe encoding.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+    <label for="text" style="font-size:13px; color:var(--text-muted); font-weight:600;">Text</label>
+    <textarea id="text" rows="8" placeholder="Type text to encode, or paste Base64 to decode..." aria-label="Text to encode or decode"></textarea>
+
+    <span class="error-text" id="errorText">Invalid Base64 string &mdash; please check your input.</span>
+
+    <label class="toggle-option" style="margin-top:16px; max-width:280px;">
+      <input type="checkbox" id="urlSafe">
+      <span>URL-safe output (for links/tokens)</span>
+    </label>
+
+    <div class="btn-group">
+      <button class="tool-btn" id="encodeBtn">Encode to Base64</button>
+      <button class="tool-btn" id="decodeBtn">Decode from Base64</button>
+    </div>
+
+    <div class="result-actions">
+      <button class="tool-btn" id="copyBtn"><span data-lucide="copy" style="width:14px;height:14px;vertical-align:-2px;"></span> Copy Text</button>
+      <button class="tool-btn secondary" id="downloadBtn"><span data-lucide="download" style="width:14px;height:14px;vertical-align:-2px;"></span> Download .txt</button>
+      <button class="tool-btn secondary" id="clearBtn"><span data-lucide="trash-2" style="width:14px;height:14px;vertical-align:-2px;"></span> Clear</button>
+    </div>
+
+    <div class="subsection">
+      <h3>Encode a File to Base64</h3>
+
+      <label class="file-drop" id="fileDrop">
+        <input type="file" id="fileInput">
+        <span data-lucide="upload-cloud" style="width:22px;height:22px;color:var(--accent-2);"></span>
+        <div class="file-drop-label"><strong>Click to upload</strong> or drag a file here</div>
+        <div class="file-info" id="fileInfo">No file selected</div>
+      </label>
+
+      <label class="toggle-option" style="margin-top:14px; max-width:320px;">
+        <input type="checkbox" id="includeDataUri" checked>
+        <span>Include Data URI prefix (for HTML/CSS use)</span>
+      </label>
+
+      <textarea id="fileResult" rows="6" readonly placeholder="Base64 output will appear here..." style="margin-top:14px;" aria-label="File Base64 output"></textarea>
+
+      <div class="result-actions">
+        <button class="tool-btn" id="copyFileBtn"><span data-lucide="copy" style="width:14px;height:14px;vertical-align:-2px;"></span> Copy Output</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Tool</h2>
+    <p>The Zaberz Base64 Encoder &amp; Decoder converts text or files into Base64 format and back, correctly handling Unicode characters like emojis and non-Latin scripts. It also supports URL-safe encoding for use in links and tokens, and can encode entire files &mdash; such as images &mdash; into a Base64 string ready to embed directly in HTML or CSS. All conversion happens locally in your browser.</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Type or paste text, then click Encode or Decode.</li>
+      <li><span class="step-num">2</span> For files, upload one below to get its Base64 output.</li>
+      <li><span class="step-num">3</span> Copy the result or download it as a .txt file.</li>
+    </ol>
+  </section>
+
+  <section class="info-section" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What is Base64 encoding used for?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>Base64 encoding converts binary data, such as images or files, into plain text so it can be safely embedded in places that only support text, like HTML, CSS, JSON, or email.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Is Base64 the same as encryption?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>No. Base64 is only an encoding format, not encryption. Anyone can decode Base64 text instantly, so it should never be used to protect sensitive information.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Can I convert an image to Base64?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes, use the file upload section on this page to convert any image or file into a Base64 string, optionally including the data URI prefix for direct use in HTML or CSS.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section related-tools">
+    <h2>Related Tools</h2>
+    <div class="grid">
+      <a class="card" href="url-encoder.html">
+        <span class="card-icon" data-lucide="link"></span>
+        <span class="card-title">URL Encoder</span>
+        <span class="card-desc">Encode or decode URL components</span>
+      </a>
+      <a class="card" href="text-case.html">
+        <span class="card-icon" data-lucide="case-sensitive"></span>
+        <span class="card-title">Text Case Converter</span>
+        <span class="card-desc">Switch between upper, lower &amp; title case</span>
+      </a>
+      <a class="card" href="word-counter.html">
+        <span class="card-icon" data-lucide="hash"></span>
+        <span class="card-title">Word Counter</span>
+        <span class="card-desc">Count words, characters &amp; reading time</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="../script.js" defer></script>
+<script src="base64.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>QR Code Generator Online Free – Custom Colors & Download PNG | Zaberz</title>
+<meta name="description" content="Free online QR code generator. Create QR codes for text, links or Wi-Fi info with custom colors and size, then download as PNG. No signup, no data stored.">
+<meta name="keywords" content="qr code generator, free qr code, qr code maker online, custom qr code, download qr code png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/tools/qr-generator.html">
+
+<meta property="og:title" content="QR Code Generator | Zaberz">
+<meta property="og:description" content="Create custom-colored QR codes instantly and download as PNG. Free, fast, no signup, generated entirely in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/qr-generator.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<script>
+(function () {
+  // Try multiple CDNs in sequence in case one is blocked/unreachable on the visitor's network.
+  var qrSources = [
+    'https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.min.js',
+    'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js',
+    'https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js'
+  ];
+  var i = 0;
+  function tryLoad() {
+    if (i >= qrSources.length) return;
+    var s = document.createElement('script');
+    s.src = qrSources[i];
+    s.onerror = function () { i++; tryLoad(); };
+    document.head.appendChild(s);
+  }
+  tryLoad();
+})();
+</script>
+<link rel="stylesheet" href="../style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Generators", "item": "https://zaberz.com/index.html#generators"},
+    {"@type": "ListItem", "position": 3, "name": "QR Code Generator", "item": "https://zaberz.com/tools/qr-generator.html"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "QR Code Generator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What can I encode in a QR code?",
+      "acceptedAnswer": {"@type": "Answer", "text": "You can encode plain text, website links, Wi-Fi credentials, contact details, or any other short text-based content."}
+    },
+    {
+      "@type": "Question",
+      "name": "Will a colored QR code still scan properly?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes, as long as there is strong contrast between the foreground and background colors. Dark colors on a light background scan most reliably."}
+    },
+    {
+      "@type": "Question",
+      "name": "What does the error correction level do?",
+      "acceptedAnswer": {"@type": "Answer", "text": "A higher error correction level lets the QR code still scan correctly even if part of it is damaged or obscured, at the cost of a slightly denser pattern."}
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> All Tools
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#generators">Generators</a> /
+  <span aria-current="page">QR Code Generator</span>
+</nav>
+
+<header class="tool-header">
+  <h1>QR Code Generator</h1>
+  <p>Create custom QR codes for text, links, or Wi-Fi info &mdash; with your own colors, then download as PNG.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+
+    <div class="field-group">
+      <label for="text">Text, URL, or Wi-Fi Info</label>
+      <textarea id="text" rows="3" placeholder="e.g. https://zaberz.com" aria-label="Content to encode"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label for="sizeSelect">Size</label>
+      <select id="sizeSelect" class="url-input">
+        <option value="150">Small (150px)</option>
+        <option value="250" selected>Medium (250px)</option>
+        <option value="350">Large (350px)</option>
+        <option value="500">Extra Large (500px)</option>
+      </select>
+    </div>
+
+    <div class="color-row">
+      <div class="color-field">
+        <label for="fgColor">Foreground Color</label>
+        <input type="color" id="fgColor" value="#000000">
+      </div>
+      <div class="color-field">
+        <label for="bgColor">Background Color</label>
+        <input type="color" id="bgColor" value="#ffffff">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="errorLevel">Error Correction Level</label>
+      <select id="errorLevel" class="url-input">
+        <option value="L">Low (L)</option>
+        <option value="M" selected>Medium (M)</option>
+        <option value="Q">Quartile (Q)</option>
+        <option value="H">High (H)</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary btn-block" id="generateBtn">Generate QR Code</button>
+
+    <div class="qr-preview-wrap">
+      <canvas id="qrCanvas" style="display:none;"></canvas>
+      <span class="qr-placeholder" id="qrPlaceholder">Your QR code will appear here.</span>
+    </div>
+
+    <div class="result-actions">
+      <button class="tool-btn" id="downloadBtn"><span data-lucide="download" style="width:14px;height:14px;vertical-align:-2px;"></span> Download PNG</button>
+      <button class="tool-btn secondary" id="clearBtn"><span data-lucide="trash-2" style="width:14px;height:14px;vertical-align:-2px;"></span> Clear</button>
+    </div>
+
+    <div class="subsection">
+      <h3>Recent QR Codes (this session)</h3>
+      <div class="history-list" id="historyList">
+        <span class="history-empty">Generated QR codes will appear here.</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Tool</h2>
+    <p>The Zaberz QR Code Generator creates scannable QR codes entirely in your browser &mdash; nothing you type is sent to a server. Customize the size, colors, and error correction level, then download your QR code as a PNG image ready to print or share.</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Type or paste the text, link, or info you want to encode.</li>
+      <li><span class="step-num">2</span> Adjust size, colors, and error correction if needed.</li>
+      <li><span class="step-num">3</span> Click Generate, then download your QR code as a PNG.</li>
+    </ol>
+  </section>
+
+  <section class="info-section" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What can I encode in a QR code?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>You can encode plain text, website links, Wi-Fi credentials, contact details, or any other short text-based content.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Will a colored QR code still scan properly?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes, as long as there is strong contrast between the foreground and background colors. Dark colors on a light background scan most reliably.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What does the error correction level do?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>A higher error correction level lets the QR code still scan correctly even if part of it is damaged or obscured, at the cost of a slightly denser pattern.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section related-tools">
+    <h2>Related Tools</h2>
+    <div class="grid">
+      <a class="card" href="color-picker.html">
+        <span class="card-icon" data-lucide="palette"></span>
+        <span class="card-title">Color Picker</span>
+        <span class="card-desc">Pick, preview &amp; copy color codes</span>
+      </a>
+      <a class="card" href="url-encoder.html">
+        <span class="card-icon" data-lucide="link"></span>
+        <span class="card-title">URL Encoder</span>
+        <span class="card-desc">Encode or decode URL components</span>
+      </a>
+      <a class="card" href="image-compressor.html">
+        <span class="card-icon" data-lucide="image-down"></span>
+        <span class="card-title">Image Compressor</span>
+        <span class="card-desc">Reduce image size without losing quality</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="../script.js" defer></script>
+<script src="qr-generator.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Image Compressor Online Free – JPEG, PNG & WebP | Zaberz</title>
+<meta name="description" content="Free online image compressor. Reduce image file size with adjustable quality, resizing, sharpening, and JPEG/PNG/WebP format conversion — all in your browser.">
+<meta name="keywords" content="image compressor online, compress jpeg, compress png, image to webp, reduce image size online, resize image online">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/tools/image-compressor.html">
+
+<meta property="og:title" content="Image Compressor | Zaberz">
+<meta property="og:description" content="Compress and resize images instantly with quality control and format conversion. Free, fast, no signup, all in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/image-compressor.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Media Tools", "item": "https://zaberz.com/index.html#media-tools"},
+    {"@type": "ListItem", "position": 3, "name": "Image Compressor", "item": "https://zaberz.com/tools/image-compressor.html"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Image Compressor",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which format should I choose — JPEG, PNG, or WebP?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Use JPEG or WebP for photos, since they compress well with minimal visible quality loss. Use PNG when you need transparency or sharp edges, such as logos or screenshots. WebP usually gives the smallest file size for a given quality level."}
+    },
+    {
+      "@type": "Question",
+      "name": "Does compressing reduce image quality?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Some quality loss is expected with JPEG and WebP compression, but at higher quality settings it's usually not noticeable. PNG compression is lossless, so quality stays the same regardless of file size reduction."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is my image uploaded to a server?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No, all compression and resizing happens locally in your browser using canvas. Your image is never uploaded or stored anywhere."}
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> All Tools
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#media-tools">Media Tools</a> /
+  <span aria-current="page">Image Compressor</span>
+</nav>
+
+<header class="tool-header">
+  <h1>Image Compressor</h1>
+  <p>Reduce image file size with adjustable quality, resizing, and format conversion &mdash; entirely in your browser.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+
+    <label class="file-drop" id="fileDrop">
+      <input type="file" id="imgInput" accept="image/*">
+      <span data-lucide="upload-cloud" style="width:22px;height:22px;color:var(--accent-2);"></span>
+      <div class="file-drop-label"><strong>Click to upload</strong> or drag an image here</div>
+      <div class="file-info" id="fileInfo">No image selected</div>
+    </label>
+
+    <div class="field-group">
+      <label for="format">Output Format</label>
+      <select id="format" class="url-input">
+        <option value="image/jpeg" selected>JPEG (best for photos)</option>
+        <option value="image/webp">WebP (smallest size)</option>
+        <option value="image/png">PNG (lossless, supports transparency)</option>
+      </select>
+    </div>
+
+    <div class="field-group" id="qualityGroup">
+      <label>Quality: <strong id="qv" style="color:var(--accent-2);">80%</strong></label>
+      <input type="range" id="quality" min="10" max="100" value="80">
+    </div>
+
+    <div class="field-group">
+      <label>Resize (Scale): <strong id="sv" style="color:var(--accent-2);">100%</strong></label>
+      <input type="range" id="scale" min="10" max="100" value="100">
+    </div>
+
+    <label class="toggle-option" style="margin-top:16px; max-width:220px;">
+      <input type="checkbox" id="sharpen">
+      <span>Apply Sharpen</span>
+    </label>
+
+    <button class="btn btn-primary btn-block" id="compressBtn">Compress Image</button>
+
+    <div id="resultArea" style="display:none;">
+      <div class="compare-grid">
+        <div class="compare-box">
+          <h4>Original</h4>
+          <div class="image-frame"><img id="originalImg" alt="Original image"></div>
+          <p class="compare-stat" id="originalStat"></p>
+        </div>
+        <div class="compare-box">
+          <h4>Compressed</h4>
+          <div class="image-frame"><canvas id="canvas"></canvas></div>
+          <p class="compare-stat" id="compressedStat"></p>
+        </div>
+      </div>
+
+      <div class="reduction-display">
+        <div class="reduction-value" id="reductionValue">0%</div>
+        <div class="reduction-label">file size change</div>
+      </div>
+
+      <div class="result-actions">
+        <button class="tool-btn" id="downloadBtn"><span data-lucide="download" style="width:14px;height:14px;vertical-align:-2px;"></span> Download Image</button>
+        <button class="tool-btn secondary" id="resetBtn"><span data-lucide="trash-2" style="width:14px;height:14px;vertical-align:-2px;"></span> Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Tool</h2>
+    <p>The Zaberz Image Compressor reduces image file size by adjusting quality and dimensions directly in your browser using the canvas API &mdash; no upload to any server required. Choose between JPEG, WebP, or PNG output, fine-tune the compression quality and resize scale, and optionally sharpen the result to counter softness introduced by resizing.</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Upload an image by clicking or dragging it in.</li>
+      <li><span class="step-num">2</span> Choose a format, adjust quality and resize scale.</li>
+      <li><span class="step-num">3</span> Click Compress, then download your optimized image.</li>
+    </ol>
+  </section>
+
+  <section class="info-section" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Which format should I choose — JPEG, PNG, or WebP?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>Use JPEG or WebP for photos, since they compress well with minimal visible quality loss. Use PNG when you need transparency or sharp edges, such as logos or screenshots. WebP usually gives the smallest file size for a given quality level.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Does compressing reduce image quality?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>Some quality loss is expected with JPEG and WebP compression, but at higher quality settings it's usually not noticeable. PNG compression is lossless, so quality stays the same regardless of file size reduction.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Is my image uploaded to a server?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>No, all compression and resizing happens locally in your browser using canvas. Your image is never uploaded or stored anywhere.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section related-tools">
+    <h2>Related Tools</h2>
+    <div class="grid">
+      <a class="card" href="youtube-thumbnail.html">
+        <span class="card-icon" data-lucide="youtube"></span>
+        <span class="card-title">YouTube Thumbnail</span>
+        <span class="card-desc">Grab thumbnails from any YouTube video</span>
+      </a>
+      <a class="card" href="color-picker.html">
+        <span class="card-icon" data-lucide="palette"></span>
+        <span class="card-title">Color Picker</span>
+        <span class="card-desc">Pick, preview &amp; copy color codes</span>
+      </a>
+      <a class="card" href="qr-generator.html">
+        <span class="card-icon" data-lucide="qr-code"></span>
+        <span class="card-title">QR Code Generator</span>
+        <span class="card-desc">Turn text or links into QR codes</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="../script.js" defer></script>
+<script src="image-compressor.js" defer></script>
+</body>
+</html>

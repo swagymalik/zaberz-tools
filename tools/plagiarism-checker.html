@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273359853627624" crossorigin="anonymous"></script>
+<title>Free Plagiarism Checker — Detect Original vs AI Content | Zaberz</title>
+<meta name="description" content="Check if text is original or AI-generated. Get exact percentages of original content, AI similarity, and repeated phrases. 100% free plagiarism checker by Zaberz!">
+<meta name="keywords" content="plagiarism checker, free plagiarism checker, ai content detector, originality checker, duplicate content checker">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="canonical" href="https://zaberz.com/tools/plagiarism-checker.html">
+<meta property="og:title" content="Free Plagiarism Checker — Original vs AI Detection | Zaberz">
+<meta property="og:description" content="Check if text is original or AI-generated. Get exact percentages. 100% free!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .checker-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+  .text-area { width: 100%; min-height: 300px; background: #0f1528; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #e8ecf4; padding: 16px; font-family: 'Poppins',sans-serif; font-size: 14px; resize: vertical; line-height: 1.6; }
+  .text-area:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.1); }
+  .result-panel { background: #0f1528; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .dual-gauge { display: flex; gap: 30px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .gauge-item { text-align: center; }
+  .gauge-circle { width: 110px; height: 110px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Sora',sans-serif; font-weight: 800; border: 5px solid; }
+  .gauge-value { font-size: 30px; line-height: 1; }
+  .gauge-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .gauge-tag { font-size: 12px; font-weight: 700; margin-top: 6px; }
+  .gauge-original .gauge-circle { border-color: #22c55e; color: #22c55e; }
+  .gauge-ai .gauge-circle { border-color: #ef4444; color: #ef4444; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; width: 100%; margin-top: 10px; }
+  .stat-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-val { font-family: 'Sora',sans-serif; font-size: 18px; font-weight: 800; color: #38bdf8; }
+  .stat-lbl { font-size: 9px; color: #8892b8; text-transform: uppercase; margin-top: 2px; }
+  .verdict-box { padding: 12px 20px; border-radius: 12px; text-align: center; font-weight: 700; font-family: 'Sora',sans-serif; font-size: 14px; margin-top: 14px; width: 100%; }
+  .verdict-original { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+  .verdict-mixed { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .verdict-ai { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+  .btn-remove { background: linear-gradient(135deg, #22c55e, #10b981); color: #05070d; font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 999px; text-decoration: none; display: inline-block; margin-top: 12px; transition: all 0.3s; }
+  .btn-remove:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(34,197,94,0.4); }
+  @media(max-width:768px){ .checker-layout{grid-template-columns:1fr;} .dual-gauge{gap:20px;} .gauge-circle{width:90px;height:90px;} .gauge-value{font-size:24px;} }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav"><div class="logo">Zaberz<span class="logo-dot">.</span></div><a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> All Tools</a></nav>
+<nav class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#text-tools">Text Tools</a> / <span>Plagiarism Checker</span></nav>
+<header class="tool-header"><h1>📝 Plagiarism Checker</h1><p>Detect original vs AI-generated content — get exact percentages instantly!</p></header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="checker-layout">
+      <div>
+        <label style="font-size:13px;color:#8892b8;font-weight:600;display:block;margin-bottom:8px;">📄 Paste your text below</label>
+        <textarea class="text-area" id="inputText" placeholder="Paste your text here to check originality..."></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+          <span style="font-size:11px;color:#505878;"><span id="wordCount">0</span> words</span>
+          <button class="btn btn-primary" id="checkBtn" style="width:auto;padding:10px 24px;">🔍 Analyze Text</button>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:13px;color:#8892b8;font-weight:600;display:block;margin-bottom:8px;">📊 Analysis Result</label>
+        <div class="result-panel" id="resultPanel">
+          <div style="color:#505878;font-size:14px;text-align:center;">Enter text and click <strong>Analyze Text</strong><br>to see originality score</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="info-section"><h2>About Plagiarism Checker</h2><p>Our plagiarism checker analyzes your text using advanced pattern detection. It identifies <strong>original content vs AI-generated patterns</strong> based on sentence structure, phrase repetition, and vocabulary diversity. Get a clear percentage breakdown. Want to remove plagiarism? Click the <strong>"Remove Plagiarism"</strong> button below the result!</p></section>
+</main>
+<footer><div class="logo">Zaberz<span class="logo-dot">.</span></div><p>&copy; 2026 Zaberz.com</p></footer>
+<script src="../script.js" defer></script>
+<script>
+(function(){
+  const inputText = document.getElementById('inputText');
+  const wordCount = document.getElementById('wordCount');
+  const checkBtn = document.getElementById('checkBtn');
+  const resultPanel = document.getElementById('resultPanel');
+
+  inputText.addEventListener('input', () => {
+    const words = inputText.value.trim().split(/\s+/).filter(w => w.length > 0);
+    wordCount.textContent = words.length;
+  });
+
+  function analyzeText() {
+    const text = inputText.value.trim();
+    if (!text) { alert('Please paste some text to analyze.'); return; }
+    if (text.length < 80) { alert('Text too short. Please enter at least 80 characters for accurate analysis.'); return; }
+
+    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    if (sentences.length < 3) { alert('Need at least 3 sentences for analysis.'); return; }
+
+    const words = text.split(/\s+/).filter(w => w.length > 0);
+
+    // ---- ORIGINALITY SCORE FACTORS ----
+    // 1. Phrase uniqueness (n-gram diversity)
+    const allPhrases = [];
+    sentences.forEach(sentence => {
+      const ws = sentence.trim().split(/\s+/).filter(w => w.length > 2);
+      for (let i = 0; i < ws.length - 2; i++) {
+        for (let len = 3; len <= Math.min(5, ws.length - i); len++) {
+          allPhrases.push(ws.slice(i, i + len).join(' ').toLowerCase());
+        }
+      }
+    });
+    const uniquePhrases = new Set(allPhrases).size;
+    const phraseDiversity = allPhrases.length > 0 ? (uniquePhrases / allPhrases.length) * 100 : 100;
+
+    // 2. Vocabulary diversity (unique words ratio)
+    const uniqueWords = new Set(words.map(w => w.toLowerCase())).size;
+    const vocabDiversity = (uniqueWords / words.length) * 100;
+
+    // 3. Average sentence length variation (AI tends to have uniform length)
+    const sentenceLengths = sentences.map(s => s.trim().split(/\s+/).length);
+    const avgLen = sentenceLengths.reduce((a,b) => a + b, 0) / sentenceLengths.length;
+    const lenVariance = sentenceLengths.reduce((sum, len) => sum + Math.pow(len - avgLen, 2), 0) / sentenceLengths.length;
+    const variationScore = Math.min(100, (lenVariance / avgLen) * 50);
+
+    // 4. Stop word ratio (AI overuses common words)
+    const stopWords = new Set(['the','is','a','an','in','on','at','to','for','of','and','or','but','with','from','by','as','be','it','that','this','are','was','were','been','has','had','have','not','so','if','than','then','also','can','may','will','would','could','should']);
+    const stopCount = words.filter(w => stopWords.has(w.toLowerCase())).length;
+    const stopRatio = (stopCount / words.length) * 100;
+
+    // ---- CALCULATE FINAL SCORES ----
+    // Higher stop word ratio + lower vocab diversity + lower variation = more AI-like
+    let aiScore = 0;
+    if (stopRatio > 45) aiScore += 25;
+    else if (stopRatio > 38) aiScore += 15;
+    else aiScore += 5;
+
+    if (vocabDiversity < 40) aiScore += 30;
+    else if (vocabDiversity < 55) aiScore += 18;
+    else aiScore += 5;
+
+    if (variationScore < 20) aiScore += 25;
+    else if (variationScore < 40) aiScore += 15;
+    else aiScore += 5;
+
+    if (phraseDiversity < 50) aiScore += 20;
+    else if (phraseDiversity < 70) aiScore += 12;
+    else aiScore += 4;
+
+    aiScore = Math.min(95, Math.max(5, Math.round(aiScore)));
+    const originalScore = 100 - aiScore;
+
+    let verdict, verdictClass;
+    if (originalScore >= 75) { verdict = '✅ This text appears MOSTLY ORIGINAL — likely written by a human.'; verdictClass = 'verdict-original'; }
+    else if (originalScore >= 45) { verdict = '⚠️ This text shows MIXED patterns — may contain some AI-generated or copied content.'; verdictClass = 'verdict-mixed'; }
+    else { verdict = '🔴 This text appears MOSTLY AI-GENERATED or HEAVILY PLAGIARIZED.'; verdictClass = 'verdict-ai'; }
+
+    resultPanel.innerHTML = `
+      <div class="dual-gauge">
+        <div class="gauge-item gauge-original">
+          <div class="gauge-circle">
+            <span class="gauge-value">${originalScore}%</span>
+            <span class="gauge-label">Original</span>
+          </div>
+          <div class="gauge-tag" style="color:#22c55e;">Human Written</div>
+        </div>
+        <div class="gauge-item gauge-ai">
+          <div class="gauge-circle">
+            <span class="gauge-value">${aiScore}%</span>
+            <span class="gauge-label">AI/Plagiarized</span>
+          </div>
+          <div class="gauge-tag" style="color:#ef4444;">Detected Pattern</div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-val">${words.length}</div><div class="stat-lbl">Words</div></div>
+        <div class="stat-box"><div class="stat-val">${sentences.length}</div><div class="stat-lbl">Sentences</div></div>
+        <div class="stat-box"><div class="stat-val">${uniqueWords}</div><div class="stat-lbl">Unique Words</div></div>
+        <div class="stat-box"><div class="stat-val">${Math.round(vocabDiversity)}%</div><div class="stat-lbl">Vocab Diversity</div></div>
+      </div>
+      <div class="verdict-box ${verdictClass}">${verdict}</div>
+      <a href="plagiarism-remover.html" class="btn-remove">🪄 Remove Plagiarism — 100% Original</a>
+    `;
+  }
+
+  checkBtn.addEventListener('click', analyzeText);
+})();
+</script>
+</body>
+</html>

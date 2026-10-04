@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Color Picker Online Free – HEX, RGB, HSL & Color Palette | Zaberz</title>
+<meta name="description" content="Free online color picker. Get HEX, RGB and HSL codes instantly, plus shades, tints, and complementary color suggestions for your design.">
+<meta name="keywords" content="color picker online, hex color picker, rgb to hex, color palette generator, complementary color finder">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/tools/color-picker.html">
+
+<meta property="og:title" content="Color Picker | Zaberz">
+<meta property="og:description" content="Get HEX, RGB, HSL codes plus shades, tints, and color harmony suggestions instantly. Free, fast, no signup.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/color-picker.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Generators", "item": "https://zaberz.com/index.html#generators"},
+    {"@type": "ListItem", "position": 3, "name": "Color Picker", "item": "https://zaberz.com/tools/color-picker.html"}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Color Picker",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between HEX, RGB, and HSL?",
+      "acceptedAnswer": {"@type": "Answer", "text": "HEX and RGB both describe a color by its red, green, and blue components, just in different formats. HSL describes a color by hue, saturation, and lightness, which can be more intuitive for adjusting a color's brightness or vibrancy."}
+    },
+    {
+      "@type": "Question",
+      "name": "What are shades and tints?",
+      "acceptedAnswer": {"@type": "Answer", "text": "A shade is a color mixed with black to make it darker, while a tint is a color mixed with white to make it lighter. Both are generated automatically from your selected color."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is a complementary color?",
+      "acceptedAnswer": {"@type": "Answer", "text": "A complementary color sits opposite your chosen color on the color wheel, creating strong visual contrast, which is often used to make design elements stand out."}
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> All Tools
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#generators">Generators</a> /
+  <span aria-current="page">Color Picker</span>
+</nav>
+
+<header class="tool-header">
+  <h1>Color Picker</h1>
+  <p>Get HEX, RGB and HSL codes instantly, with shades, tints, and complementary color suggestions.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+
+    <div class="color-input-row">
+      <input type="color" id="colorPicker" value="#4f6bff">
+      <input type="text" id="hexInput" class="url-input" value="#4F6BFF" maxlength="7" placeholder="#4F6BFF">
+    </div>
+
+    <div class="color-main-preview" id="mainPreview"></div>
+
+    <div class="color-value-row">
+      <span class="color-value-label">HEX</span>
+      <span class="color-value-text" id="hexValue">#4F6BFF</span>
+      <button type="button" data-copy="hexValue" aria-label="Copy HEX"><span data-lucide="copy" style="width:15px;height:15px;"></span></button>
+    </div>
+    <div class="color-value-row">
+      <span class="color-value-label">RGB</span>
+      <span class="color-value-text" id="rgbValue">rgb(79, 107, 255)</span>
+      <button type="button" data-copy="rgbValue" aria-label="Copy RGB"><span data-lucide="copy" style="width:15px;height:15px;"></span></button>
+    </div>
+    <div class="color-value-row">
+      <span class="color-value-label">HSL</span>
+      <span class="color-value-text" id="hslValue">hsl(231, 100%, 65%)</span>
+      <button type="button" data-copy="hslValue" aria-label="Copy HSL"><span data-lucide="copy" style="width:15px;height:15px;"></span></button>
+    </div>
+
+    <div class="subsection">
+      <h3>Tints (Lighter)</h3>
+      <div class="swatch-row" id="tintsRow"></div>
+    </div>
+
+    <div class="subsection">
+      <h3>Shades (Darker)</h3>
+      <div class="swatch-row" id="shadesRow"></div>
+    </div>
+
+    <div class="subsection">
+      <h3>Color Harmony</h3>
+      <div class="swatch-row" id="harmonyRow"></div>
+    </div>
+
+    <div class="subsection">
+      <h3>Recently Used</h3>
+      <div class="swatch-row" id="historyRow">
+        <span class="history-empty">Colors you pick will appear here.</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Tool</h2>
+    <p>The Zaberz Color Picker lets you pick any color and instantly get its HEX, RGB, and HSL codes. It also generates a set of tints and shades for building consistent UI palettes, plus complementary and analogous color suggestions to help you build a balanced color scheme for your designs.</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Pick a color using the color wheel or type a HEX code.</li>
+      <li><span class="step-num">2</span> Copy the HEX, RGB, or HSL value you need.</li>
+      <li><span class="step-num">3</span> Explore shades, tints, and harmony suggestions for your palette.</li>
+    </ol>
+  </section>
+
+  <section class="info-section" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What is the difference between HEX, RGB, and HSL?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>HEX and RGB both describe a color by its red, green, and blue components, just in different formats. HSL describes a color by hue, saturation, and lightness, which can be more intuitive for adjusting a color's brightness or vibrancy.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What are shades and tints?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>A shade is a color mixed with black to make it darker, while a tint is a color mixed with white to make it lighter. Both are generated automatically from your selected color.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What is a complementary color?
+        <span class="chevron" data-lucide="chevron-down"></span>
+      </button>
+      <div class="faq-answer">
+        <p>A complementary color sits opposite your chosen color on the color wheel, creating strong visual contrast, which is often used to make design elements stand out.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section related-tools">
+    <h2>Related Tools</h2>
+    <div class="grid">
+      <a class="card" href="qr-generator.html">
+        <span class="card-icon" data-lucide="qr-code"></span>
+        <span class="card-title">QR Code Generator</span>
+        <span class="card-desc">Turn text or links into QR codes</span>
+      </a>
+      <a class="card" href="image-compressor.html">
+        <span class="card-icon" data-lucide="image-down"></span>
+        <span class="card-title">Image Compressor</span>
+        <span class="card-desc">Reduce image size without losing quality</span>
+      </a>
+      <a class="card" href="text-case.html">
+        <span class="card-icon" data-lucide="case-sensitive"></span>
+        <span class="card-title">Text Case Converter</span>
+        <span class="card-desc">Switch between upper, lower &amp; title case</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script src="../script.js" defer></script>
+<script src="color-picker.js" defer></script>
+</body>
+</html>

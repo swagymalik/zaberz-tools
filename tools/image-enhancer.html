@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Image Quality Enhancer — Add Background, Shadow & Glow to Images | Zaberz</title>
+<meta name="description" content="Enhance your images instantly. Add gradient backgrounds, shadows, rounded corners, and glow effects. Make screenshots & photos look premium. Free online tool by Zaberz!">
+<meta name="keywords" content="image enhancer, image quality enhancer, enhance image online, add background to image, image shadow, image glow, free image tool, photo enhancer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="canonical" href="https://zaberz.com/tools/image-enhancer.html">
+<meta property="og:title" content="Image Quality Enhancer — Add Glow, Shadow & Background | Zaberz">
+<meta property="og:description" content="Enhance images with gradient backgrounds, shadows, and glow effects. Make screenshots look premium. Free, no signup!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/tools/image-enhancer.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .upload-zone { border: 2px dashed rgba(255,255,255,0.15); border-radius: 16px; padding: 40px 20px; text-align: center; cursor: pointer; background: rgba(15,20,45,0.3); transition: all 0.3s; }
+  .upload-zone:hover, .upload-zone.drag-over { border-color: #38bdf8; background: rgba(56,189,248,0.05); }
+  .upload-zone input { display: none; }
+  .upload-icon { font-size: 48px; margin-bottom: 12px; }
+  .upload-text { color: #8892b8; font-size: 14px; }
+  .upload-text strong { color: #38bdf8; }
+  .preview-container { display: flex; justify-content: center; align-items: center; padding: 30px; border-radius: 16px; margin-top: 20px; min-height: 300px; }
+  .preview-container img { max-width: 70%; border-radius: 8px; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 20px; }
+  .control-group { display: flex; flex-direction: column; gap: 6px; }
+  .control-group label { font-size: 12px; color: #8892b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .control-group input[type="color"] { width: 100%; height: 40px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; background: transparent; padding: 2px; }
+  .control-group input[type="range"] { width: 100%; accent-color: #38bdf8; }
+  .control-group select { width: 100%; padding: 10px; background: #0f1528; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8ecf4; font-family: 'Poppins',sans-serif; font-size: 13px; }
+  .range-row { display: flex; justify-content: space-between; font-size: 11px; color: #505878; }
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 8px; margin-top: 8px; }
+  .preset-btn { height: 40px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: transform 0.2s; }
+  .preset-btn:hover { transform: scale(1.08); border-color: #fff; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> All Tools</a>
+</nav>
+<nav class="breadcrumb">
+  <a href="../index.html">Home</a> / <a href="../index.html#media-tools">Media Tools</a> / <span>Image Enhancer</span>
+</nav>
+<header class="tool-header">
+  <h1>📸 Image Quality Enhancer</h1>
+  <p>Upload any image — add stunning backgrounds, shadows & glow to make it look premium!</p>
+</header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="uploadZone">
+      <div class="upload-icon">🖼️</div>
+      <div class="upload-text"><strong>Click to upload</strong> or drag & drop an image</div>
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-container" id="previewContainer" style="display:none; background: linear-gradient(135deg, #1e1b4b, #0f172a);">
+      <img id="previewImage" src="" alt="Preview">
+    </div>
+
+    <!-- Controls -->
+    <div id="controlsArea" style="display:none;">
+      <div class="controls">
+        <div class="control-group" style="grid-column: 1 / -1;">
+          <label>🎨 Background Presets</label>
+          <div class="preset-grid" id="presetGrid"></div>
+        </div>
+        <div class="control-group">
+          <label>Color 1</label>
+          <input type="color" id="color1" value="#1e1b4b">
+        </div>
+        <div class="control-group">
+          <label>Color 2</label>
+          <input type="color" id="color2" value="#0f172a">
+        </div>
+        <div class="control-group">
+          <label>Direction</label>
+          <select id="gradientDirection">
+            <option value="135deg">↘ Diagonal</option>
+            <option value="0deg">→ Right</option>
+            <option value="90deg">↓ Down</option>
+            <option value="180deg">← Left</option>
+            <option value="270deg">↑ Up</option>
+            <option value="45deg">↗ Diagonal Up</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Shadow</label>
+          <input type="range" id="shadow" min="0" max="50" value="15" step="1">
+          <div class="range-row"><span>None</span><span>Heavy</span></div>
+        </div>
+        <div class="control-group">
+          <label>Glow</label>
+          <input type="range" id="glow" min="0" max="40" value="5" step="1">
+          <div class="range-row"><span>None</span><span>Bright</span></div>
+        </div>
+        <div class="control-group">
+          <label>Rounded Corners</label>
+          <input type="range" id="borderRadius" min="0" max="40" value="8" step="1">
+          <div class="range-row"><span>Sharp</span><span>Round</span></div>
+        </div>
+        <div class="control-group">
+          <label>Image Size</label>
+          <input type="range" id="imageScale" min="40" max="90" value="70" step="1">
+          <div class="range-row"><span>Small</span><span>Large</span></div>
+        </div>
+        <div class="control-group">
+          <label>Padding</label>
+          <input type="range" id="padding" min="10" max="80" value="30" step="1">
+          <div class="range-row"><span>Tight</span><span>Spacious</span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="downloadBtn" style="flex:1;">📥 Download Enhanced Image</button>
+        <button class="btn btn-cyber" id="resetBtn" style="flex:1;">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About Image Quality Enhancer</h2>
+    <p>Turn plain images and screenshots into premium visuals! Add beautiful gradient backgrounds, soft shadows, glowing edges, and rounded corners. Perfect for social media posts, presentations, app screenshots, and product images. No design skills required — enhance your images in seconds!</p>
+  </section>
+  <section class="info-section">
+    <h2>How to Use</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Upload or drag your image</li>
+      <li><span class="step-num">2</span> Pick a preset background or customize colors</li>
+      <li><span class="step-num">3</span> Adjust shadow, glow, corners & size</li>
+      <li><span class="step-num">4</span> Download your enhanced image!</li>
+    </ol>
+  </section>
+</main>
+<footer><div class="logo">Zaberz<span class="logo-dot">.</span></div><p>&copy; 2026 Zaberz.com</p></footer>
+<script src="../script.js" defer></script>
+<script>
+(function(){
+  const uploadZone = document.getElementById('uploadZone');
+  const imageInput = document.getElementById('imageInput');
+  const previewContainer = document.getElementById('previewContainer');
+  const previewImage = document.getElementById('previewImage');
+  const controlsArea = document.getElementById('controlsArea');
+
+  const color1 = document.getElementById('color1');
+  const color2 = document.getElementById('color2');
+  const gradientDirection = document.getElementById('gradientDirection');
+  const shadow = document.getElementById('shadow');
+  const glow = document.getElementById('glow');
+  const borderRadius = document.getElementById('borderRadius');
+  const imageScale = document.getElementById('imageScale');
+  const padding = document.getElementById('padding');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const presetGrid = document.getElementById('presetGrid');
+
+  let uploadedImage = null;
+
+  const presets = [
+    { name: 'Cyber', c1: '#1e1b4b', c2: '#0f172a' },
+    { name: 'Sunset', c1: '#7c2d12', c2: '#1a0a00' },
+    { name: 'Ocean', c1: '#0c4a6e', c2: '#082f49' },
+    { name: 'Forest', c1: '#14532d', c2: '#052e16' },
+    { name: 'Purple', c1: '#3b0764', c2: '#1a0030' },
+    { name: 'Dark', c1: '#111827', c2: '#030712' },
+    { name: 'Neon', c1: '#4f6bff', c2: '#a855f7' },
+    { name: 'Gold', c1: '#78350f', c2: '#1a0a00' }
+  ];
+
+  presets.forEach(p => {
+    const btn = document.createElement('div');
+    btn.className = 'preset-btn';
+    btn.style.background = `linear-gradient(135deg, ${p.c1}, ${p.c2})`;
+    btn.title = p.name;
+    btn.addEventListener('click', () => {
+      color1.value = p.c1;
+      color2.value = p.c2;
+      updatePreview();
+    });
+    presetGrid.appendChild(btn);
+  });
+
+  uploadZone.addEventListener('click', () => imageInput.click());
+  uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+  uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) loadImage(file);
+  });
+  imageInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) loadImage(file);
+  });
+
+  function loadImage(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedImage = new Image();
+      uploadedImage.onload = () => {
+        previewImage.src = e.target.result;
+        previewContainer.style.display = 'flex';
+        controlsArea.style.display = 'block';
+        uploadZone.style.display = 'none';
+        updatePreview();
+      };
+      uploadedImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function updatePreview() {
+    if (!uploadedImage) return;
+    previewContainer.style.background = `linear-gradient(${gradientDirection.value}, ${color1.value}, ${color2.value})`;
+    previewContainer.style.padding = padding.value + 'px';
+    previewImage.style.maxWidth = imageScale.value + '%';
+    previewImage.style.borderRadius = borderRadius.value + 'px';
+    previewImage.style.boxShadow = `0 ${shadow.value}px ${shadow.value*3}px rgba(0,0,0,0.5), 0 0 ${glow.value}px ${glow.value/2}px rgba(56,189,248,${glow.value/40})`;
+  }
+
+  [color1, color2, gradientDirection, shadow, glow, borderRadius, imageScale, padding].forEach(el => {
+    el.addEventListener('input', updatePreview);
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const canvas = document.createElement('canvas');
+    const scale = 2;
+    canvas.width = previewContainer.offsetWidth * scale;
+    canvas.height = previewContainer.offsetHeight * scale;
+    const ctx = canvas.getContext('2d');
+
+    const bgImage = new Image();
+    const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${color1.value}"/>
+        <stop offset="100%" stop-color="${color2.value}"/>
+      </linearGradient></defs>
+      <rect width="100%" height="100%" fill="url(#g)"/>
+    </svg>`;
+    const blob = new Blob([svgStr], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    bgImage.onload = () => {
+      ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+      const imgX = (canvas.width - uploadedImage.width * scale * (imageScale.value/100)) / 2;
+      const imgY = (canvas.height - uploadedImage.height * scale * (imageScale.value/100)) / 2;
+      const imgW = uploadedImage.width * scale * (imageScale.value/100);
+      const imgH = uploadedImage.height * scale * (imageScale.value/100);
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(imgX, imgY, imgW, imgH, borderRadius.value * scale);
+      ctx.clip();
+      ctx.drawImage(uploadedImage, imgX, imgY, imgW, imgH);
+      ctx.restore();
+      canvas.toBlob((blob) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'enhanced-image.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    };
+    bgImage.src = url;
+  });
+
+  resetBtn.addEventListener('click', () => {
+    color1.value = '#1e1b4b';
+    color2.value = '#0f172a';
+    gradientDirection.value = '135deg';
+    shadow.value = 15;
+    glow.value = 5;
+    borderRadius.value = 8;
+    imageScale.value = 70;
+    padding.value = 30;
+    updatePreview();
+  });
+})();
+</script>
+</body>
+</html>

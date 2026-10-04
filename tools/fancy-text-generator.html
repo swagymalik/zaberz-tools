@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Fancy Text Generator — 200+ Stylish Fonts, Gaming Text & Bio Maker | Zaberz</title>
+<meta name="description" content="Generate fancy text with 200+ stylish fonts! Perfect for Instagram bios, gaming usernames, TikTok captions, WhatsApp status & more. Copy & paste instantly. Free tool by Zaberz!">
+<meta name="keywords" content="fancy text generator, stylish fonts, gaming fonts, instagram bio fonts, unicode text, cool text generator, aesthetic fonts, fortnite fonts, pubg name generator, 200+ styles">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="canonical" href="https://zaberz.com/tools/fancy-text-generator.html">
+<meta property="og:title" content="Fancy Text Generator — 200+ Stylish Fonts | Zaberz">
+<meta property="og:description" content="Generate stylish text with 200+ fonts! Perfect for Instagram, gaming, TikTok & more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .input-area textarea { width: 100%; min-height: 80px; background: #0f1528; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #e8ecf4; padding: 16px; font-family: 'Poppins',sans-serif; font-size: 16px; resize: vertical; }
+  .category-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .cat-tab { padding: 7px 14px; border-radius: 999px; font-weight: 600; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #8892b8; font-size: 11px; transition: all 0.3s; white-space: nowrap; }
+  .cat-tab.active { background: linear-gradient(135deg, #4f6bff, #a855f7); color: #fff; border-color: transparent; }
+  .styles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 12px; max-height: 500px; overflow-y: auto; }
+  .style-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #0f1528; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; transition: all 0.2s; }
+  .style-card:hover { border-color: #38bdf8; background: rgba(56,189,248,0.04); }
+  .style-preview { font-size: 18px; color: #e8ecf4; flex: 1; word-break: break-all; min-width: 0; }
+  .style-name { font-size: 10px; color: #505878; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .copy-btn { background: linear-gradient(135deg, #4f6bff, #38bdf8); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
+  .copy-btn:hover { transform: scale(1.05); }
+  @media(max-width:500px){ .styles-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav"><div class="logo">Zaberz<span class="logo-dot">.</span></div><a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> All Tools</a></nav>
+<nav class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#generators">Generators</a> / <span>Fancy Text Generator</span></nav>
+<header class="tool-header"><h1>🔤 Fancy Text Generator</h1><p>200+ stylish fonts — type, copy & paste for Instagram, gaming, TikTok & more!</p></header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="input-area">
+      <textarea id="inputText" placeholder="Type your text here... Example: Hello World" maxlength="200"></textarea>
+    </div>
+    <div class="category-tabs" id="categoryTabs"></div>
+    <div class="styles-grid" id="stylesGrid"></div>
+    <div id="noResults" style="text-align:center;padding:40px;color:#505878;display:none;">Type something to see 200+ styles ✨</div>
+  </div>
+  <section class="info-section"><h2>About</h2><p>Generate eye-catching fancy text with <strong>200+ unique styles</strong>! Uses real Unicode characters — works everywhere. Perfect for Instagram bios, gaming names (PUBG, Fortnite, Free Fire), TikTok captions, WhatsApp status, and more.</p></section>
+</main>
+<footer><div class="logo">Zaberz<span class="logo-dot">.</span></div><p>&copy; 2026 Zaberz.com</p></footer>
+<script src="../script.js" defer></script>
+<script src="fancy-text-generator.js" defer></script>
+<script>
+(function() {
+  const inputText = document.getElementById('inputText');
+  const stylesGrid = document.getElementById('stylesGrid');
+  const categoryTabs = document.getElementById('categoryTabs');
+  const noResults = document.getElementById('noResults');
+  let currentCat = 'all';
+
+  // Wait for styles to load
+  function init() {
+    if (!window.fancyStyles) return setTimeout(init, 100);
+    const categories = [...new Set(window.fancyStyles.map(s => s.category))];
+    categories.unshift('all');
+    categoryTabs.innerHTML = categories.map(cat => {
+      const label = cat === 'all' ? '🔥 All' : cat;
+      return `<div class="cat-tab${cat === currentCat ? ' active' : ''}" data-cat="${cat}">${label}</div>`;
+    }).join('');
+
+    categoryTabs.addEventListener('click', (e) => {
+      if (e.target.classList.contains('cat-tab')) {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCat = e.target.dataset.cat;
+        renderStyles();
+      }
+    });
+
+    inputText.addEventListener('input', renderStyles);
+    renderStyles();
+  }
+
+  function renderStyles() {
+    const text = inputText.value.trim();
+    if (!text) {
+      stylesGrid.innerHTML = '';
+      noResults.style.display = 'block';
+      return;
+    }
+    noResults.style.display = 'none';
+    const allStyles = window.fancyStyles;
+    const filtered = currentCat === 'all' ? allStyles : allStyles.filter(s => s.category === currentCat);
+
+    stylesGrid.innerHTML = filtered.map(s => {
+      let transformed;
+      if (s.wrapper) {
+        // Apply per-char transform first if it exists
+        const inner = text.split('').map(c => s.transform(c)).join('');
+        transformed = s.wrapper(inner);
+      } else {
+        transformed = text.split('').map(c => s.transform(c)).join('');
+      }
+      return `
+        <div class="style-card">
+          <div>
+            <div class="style-name">${s.name}</div>
+            <div class="style-preview">${transformed}</div>
+          </div>
+          <button class="copy-btn" data-text="${transformed.replace(/"/g,'&quot;').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}">Copy</button>
+        </div>
+      `;
+    }).join('');
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const txt = this.getAttribute('data-text');
+        navigator.clipboard.writeText(txt).then(() => {
+          this.textContent = '✅';
+          setTimeout(() => this.textContent = 'Copy', 1200);
+        }).catch(() => alert('Copy manually'));
+      });
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
