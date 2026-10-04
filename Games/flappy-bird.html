@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Play Flappy Bird Online Free | Zaberz</title>
+<meta name="description" content="Play Flappy Bird online for free. Tap to fly through pipes. No download, no signup. Beat your high score!">
+<meta name="keywords" content="flappy bird game online, play flappy bird free, browser flappy bird game">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/games/flappy-bird.html">
+
+<meta property="og:title" content="Play Flappy Bird Online Free | Zaberz">
+<meta property="og:description" content="Flappy Bird, free in your browser. Tap to fly, dodge pipes, beat your score!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/games/flappy-bird.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../games.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://zaberz.com/index.html"},
+    {"@type": "ListItem", "position": 2, "name": "Games", "item": "https://zaberz.com/index.html#games"},
+    {"@type": "ListItem", "position": 3, "name": "Flappy Bird", "item": "https://zaberz.com/games/flappy-bird.html"}
+  ]
+}
+</script>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> Home
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#games">Games</a> /
+  <span aria-current="page">Flappy Bird</span>
+</nav>
+
+<header class="tool-header">
+  <h1>Flappy Bird</h1>
+  <p>Tap to fly — dodge the pipes and beat your high score!</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="game-frame">
+
+      <div class="game-scorebar">
+        <div class="game-score-item">
+          <span class="game-score-value" id="scoreValue">0</span>
+          <span class="game-score-label">Score</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="bestValue">0</span>
+          <span class="game-score-label">Best</span>
+        </div>
+      </div>
+
+      <div class="game-canvas-wrap">
+        <canvas id="gameCanvas" class="game-canvas" width="360" height="480"></canvas>
+        <div class="game-overlay" id="startOverlay">
+          <h3>Flappy Bird</h3>
+          <p>Tap, Space or Click to fly.<br>Avoid the pipes!</p>
+          <button class="btn btn-primary" id="startBtn">Start Game</button>
+        </div>
+        <div class="game-overlay" id="gameOverOverlay" style="display:none;">
+          <h3>Game Over</h3>
+          <p id="finalScoreText">Score: 0</p>
+          <button class="btn btn-primary" id="restartBtn">Play Again</button>
+        </div>
+      </div>
+
+      <button class="tap-button" id="tapButton">TAP</button>
+
+      <p class="game-controls-hint">Tap / Space / Click to fly — Avoid pipes!</p>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Game</h2>
+    <p>Flappy Bird is the legendary arcade game that took the world by storm. Navigate a little bird through sets of pipes without touching them. Each set of pipes you pass earns you a point. Simple to play but hard to master — how far can you go?</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Play</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Tap the button, press Space, or click anywhere to make the bird fly up.</li>
+      <li><span class="step-num">2</span> Navigate through the gaps in the pipes without touching them.</li>
+      <li><span class="step-num">3</span> Each pipe you pass = 1 point. Don't hit the ground or pipes!</li>
+    </ol>
+  </section>
+
+  <section class="info-section related-tools game-card-list">
+    <h2>More Games</h2>
+    <div class="grid">
+      <a class="card" href="snake.html">
+        <span class="card-icon" data-lucide="gamepad-2"></span>
+        <span class="card-title">Snake</span>
+        <span class="card-desc">The classic — eat, grow, don't crash</span>
+      </a>
+      <a class="card" href="dino-runner.html">
+        <span class="card-icon" data-lucide="footprints"></span>
+        <span class="card-title">Dino Runner</span>
+        <span class="card-desc">Jump over obstacles, endless runner</span>
+      </a>
+      <a class="card" href="memory-match.html">
+        <span class="card-icon" data-lucide="brain"></span>
+        <span class="card-title">Memory Match</span>
+        <span class="card-desc">Find all the matching pairs</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<script src="../script.js" defer></script>
+<script src="flappy-bird.js" defer></script>
+</body>
+</html>

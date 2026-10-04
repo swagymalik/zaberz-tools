@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Reaction Time Test — 5 Game Modes | Zaberz</title>
+<meta name="description" content="Test your reaction speed with 5 unique game modes! Signal Light, Falling Stick, Color Change, Sound Reflex & Quick Tap. Challenge yourself and beat your best time!">
+<meta name="keywords" content="reaction time test, reflex test online, reaction speed game, brain game, signal light test, quick tap challenge, free browser game">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="canonical" href="https://zaberz.com/games/reaction-test.html">
+<meta property="og:title" content="Reaction Time Test — 5 Game Modes | Zaberz">
+<meta property="og:description" content="Test your reaction speed in 5 unique game modes! Challenge yourself and beat your best time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/games/reaction-test.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../games.css">
+<style>
+  .challenge-banner {
+    background: linear-gradient(135deg, #4f6bff, #a855f7);
+    color: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+  }
+  .challenge-banner .challenge-icon { font-size: 32px; }
+  .challenge-banner .challenge-text { flex: 1; font-size: 14px; }
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .cat-tab {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid #232a42;
+    background: rgba(79,107,255,0.08);
+    color: #8892ab;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .cat-tab.active, .cat-tab:hover {
+    background: linear-gradient(135deg, #4f6bff, #38bdf8);
+    color: #05070d;
+    border-color: transparent;
+  }
+  .reaction-area {
+    width: 100%;
+    height: 240px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border: 2px solid #232a42;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reaction-area.waiting { background: #dc2626; border-color: #ef4444; }
+  .reaction-area.ready { background: #22c55e; border-color: #4ade80; }
+  .reaction-area.neutral { background: #1e293b; border-color: #334155; }
+  .reaction-area.clicked { background: #3b82f6; border-color: #60a5fa; }
+  .reaction-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    color: #f8fafc;
+    line-height: 1.3;
+  }
+  .reaction-sub {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 6px;
+  }
+  .stick-visual {
+    width: 8px;
+    background: linear-gradient(180deg, #d97706, #92400e);
+    border-radius: 4px;
+    position: absolute;
+    top: 0;
+    transition: none;
+  }
+  .personal-best-box {
+    background: rgba(16,21,42,0.9);
+    border: 1px solid #232a42;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 14px;
+    text-align: center;
+  }
+  .personal-best-box h4 {
+    font-size: 14px;
+    color: #f8fafc;
+    margin: 0 0 10px;
+    font-family: 'Sora', sans-serif;
+  }
+  .pb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+  }
+  .pb-item {
+    background: rgba(79,107,255,0.08);
+    border: 1px solid #232a42;
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .pb-mode {
+    font-size: 10px;
+    color: #8892ab;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .pb-time {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+  .result-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #10152a;
+    border: 2px solid #38bdf8;
+    border-radius: 20px;
+    padding: 30px;
+    z-index: 999;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    max-width: 380px;
+    width: 90%;
+  }
+  .result-popup.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .result-popup h3 { color: #38bdf8; font-size: 22px; margin: 0 0 8px; }
+  .result-popup .result-time { font-size: 48px; font-weight: 800; color: #f8fafc; font-family: 'Sora', sans-serif; margin: 10px 0; }
+  .result-popup .result-msg { color: #94a3b8; font-size: 13px; margin: 6px 0 16px; }
+  .result-popup .close-popup {
+    background: #334155;
+    border: none;
+    color: #f8fafc;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+  .overlay-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,7,13,0.7);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .overlay-bg.show { opacity: 1; pointer-events: auto; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> Home</a>
+</nav>
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#games">Games</a> /
+  <span aria-current="page">Reaction Test</span>
+</nav>
+<header class="tool-header">
+  <h1>⚡ Reaction Time Test</h1>
+  <p>5 game modes — challenge yourself and beat your personal best!</p>
+</header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="game-frame">
+      <div class="challenge-banner">
+        <span class="challenge-icon">⚡</span>
+        <span class="challenge-text"><strong>Challenge Yourself!</strong> — The average human reaction time is 0.15-0.25s. How fast can you go?</span>
+      </div>
+      <div class="category-tabs" id="categoryTabs">
+        <button class="cat-tab active" data-mode="signal">🚦 Signal Light</button>
+        <button class="cat-tab" data-mode="stick">🏒 Falling Stick</button>
+        <button class="cat-tab" data-mode="color">🎨 Color Change</button>
+        <button class="cat-tab" data-mode="sound">🔊 Sound Reflex</button>
+        <button class="cat-tab" data-mode="tap">⚡ Quick Tap</button>
+      </div>
+      <div class="game-scorebar">
+        <div class="game-score-item">
+          <span class="game-score-value" id="lastTime" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;">---</span>
+          <span class="game-score-label">Last Time</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="bestTime" style="background:linear-gradient(135deg,#22c55e,#4ade80);-webkit-background-clip:text;background-clip:text;color:transparent;">---</span>
+          <span class="game-score-label">Best Time</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="attemptsValue">0</span>
+          <span class="game-score-label">Attempts</span>
+        </div>
+      </div>
+      <div class="reaction-area neutral" id="reactionArea">
+        <span class="reaction-text" id="reactionText">Click to Start</span>
+        <span class="reaction-sub" id="reactionSub">🚦 Signal Light Mode</span>
+      </div>
+      <div class="personal-best-box">
+        <h4>🏆 Your Personal Bests</h4>
+        <div class="pb-grid" id="pbGrid">
+          <div class="pb-item"><div class="pb-mode">🚦 Signal</div><div class="pb-time" id="pbSignal">---</div></div>
+          <div class="pb-item"><div class="pb-mode">🏒 Stick</div><div class="pb-time" id="pbStick">---</div></div>
+          <div class="pb-item"><div class="pb-mode">🎨 Color</div><div class="pb-time" id="pbColor">---</div></div>
+          <div class="pb-item"><div class="pb-mode">🔊 Sound</div><div class="pb-time" id="pbSound">---</div></div>
+          <div class="pb-item"><div class="pb-mode">⚡ Tap</div><div class="pb-time" id="pbTap">---</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay-bg" id="overlayBg"></div>
+  <div class="result-popup" id="resultPopup">
+    <h3 id="popupTitle">Your Reaction Time</h3>
+    <div class="result-time" id="popupTime">0.00s</div>
+    <p class="result-msg" id="popupMsg"></p>
+    <button class="close-popup" id="closePopup">Try Again</button>
+  </div>
+  <section class="info-section">
+    <h2>About This Game</h2>
+    <p>Test your reflexes across 5 unique game modes! Each mode challenges a different type of reaction — visual, auditory, and precision timing. The fastest human reaction is around 0.10-0.15 seconds. Train regularly to improve your speed and beat your personal best!</p>
+  </section>
+  <section class="info-section">
+    <h2>How to Play</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Choose a game mode from the tabs above.</li>
+      <li><span class="step-num">2</span> Wait for the signal (color, sound, or visual cue).</li>
+      <li><span class="step-num">3</span> React as fast as possible! Track your personal bests across all modes.</li>
+    </ol>
+  </section>
+  <section class="info-section related-tools game-card-list">
+    <h2>More Games</h2>
+    <div class="grid">
+      <a class="card" href="snake.html"><span class="card-icon" data-lucide="gamepad-2"></span><span class="card-title">Snake</span><span class="card-desc">The classic — eat, grow, don't crash</span></a>
+      <a class="card" href="flappy-bird.html"><span class="card-icon" data-lucide="bird"></span><span class="card-title">Flappy Bird</span><span class="card-desc">Tap to fly through the pipes</span></a>
+      <a class="card" href="arrow-shooter.html"><span class="card-icon" data-lucide="target"></span><span class="card-title">Arrow Shooter</span><span class="card-desc">Aim & shoot — hit the bullseye!</span></a>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+<script src="../script.js" defer></script>
+<script src="reaction-test.js" defer></script>
+</body>
+</html>

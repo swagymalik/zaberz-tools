@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Play Memory Match Online Free – Card Matching Game | Zaberz</title>
+<meta name="description" content="Play Memory Match online for free. Flip cards, find pairs, train your brain! Multiple difficulty levels. No download, no signup!">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="canonical" href="https://zaberz.com/games/memory-match.html">
+<meta property="og:title" content="Play Memory Match Online Free | Zaberz">
+<meta property="og:description" content="Memory Match card game — flip, match & train your brain! Free in browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/games/memory-match.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../games.css">
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link"><span data-lucide="arrow-left"></span> Home</a>
+</nav>
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> / <a href="../index.html#games">Games</a> / <span aria-current="page">Memory Match</span>
+</nav>
+<header class="tool-header">
+  <h1>Memory Match</h1>
+  <p>Flip cards, find matching pairs, and train your brain!</p>
+</header>
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="game-frame">
+      <div class="game-scorebar">
+        <div class="game-score-item">
+          <span class="game-score-value" id="movesValue">0</span>
+          <span class="game-score-label">Moves</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="pairsValue">0/8</span>
+          <span class="game-score-label">Pairs</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="timerValue">00:00</span>
+          <span class="game-score-label">Time</span>
+        </div>
+      </div>
+      <div class="memory-controls" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="tool-btn difficulty-btn active" data-level="easy">Easy (4x4)</button>
+        <button class="tool-btn difficulty-btn" data-level="medium">Medium (6x4)</button>
+        <button class="tool-btn difficulty-btn" data-level="hard">Hard (6x6)</button>
+      </div>
+      <div id="memoryGrid" class="memory-grid" style="display:grid;gap:8px;justify-content:center;"></div>
+      <div class="game-overlay" id="winOverlay" style="display:none;">
+        <h3>🎉 You Win!</h3>
+        <p id="winStatsText"></p>
+        <button class="btn btn-primary" id="playAgainBtn">Play Again</button>
+      </div>
+      <p class="game-controls-hint">Click cards to flip • Match all pairs to win!</p>
+    </div>
+  </div>
+  <section class="info-section">
+    <h2>About This Game</h2>
+    <p>Memory Match is a classic card-matching game that tests and improves your memory. Flip two cards at a time — if they match, they stay face up. Find all pairs in the fewest moves possible!</p>
+  </section>
+  <section class="info-section related-tools game-card-list">
+    <h2>More Games</h2>
+    <div class="grid">
+      <a class="card" href="snake.html"><span class="card-icon" data-lucide="gamepad-2"></span><span class="card-title">Snake</span><span class="card-desc">The classic — eat, grow, don't crash</span></a>
+      <a class="card" href="flappy-bird.html"><span class="card-icon" data-lucide="bird"></span><span class="card-title">Flappy Bird</span><span class="card-desc">Tap to fly through the pipes</span></a>
+      <a class="card" href="arrow-shooter.html"><span class="card-icon" data-lucide="target"></span><span class="card-title">Arrow Shooter</span><span class="card-desc">Aim & shoot — hit the bullseye!</span></a>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+<script src="../script.js" defer></script>
+<script src="memory-match.js" defer></script>
+</body>
+</html>

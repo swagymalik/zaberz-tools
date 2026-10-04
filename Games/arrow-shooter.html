@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+<title>Play Arrow Shooter Online Free – Bow & Arrow Target Game | Zaberz</title>
+<meta name="description" content="Play Arrow Shooter online for free. Aim your bow, shoot targets and score points. No download, no signup. Beat your high score!">
+<meta name="keywords" content="arrow shooter game online, bow and arrow game free, target shooting browser game">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/games/arrow-shooter.html">
+
+<meta property="og:title" content="Play Arrow Shooter Online Free | Zaberz">
+<meta property="og:description" content="Bow & Arrow target shooter, free in your browser. Aim, shoot, score!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/games/arrow-shooter.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../games.css">
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav class="tool-page-nav">
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <a href="../index.html" class="back-link">
+    <span data-lucide="arrow-left"></span> Home
+  </a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../index.html#games">Games</a> /
+  <span aria-current="page">Arrow Shooter</span>
+</nav>
+
+<header class="tool-header">
+  <h1>Arrow Shooter</h1>
+  <p>Aim your bow, hit the targets, and score big! Click or tap to shoot.</p>
+</header>
+
+<main class="tool-page-container">
+  <div class="tool-card">
+    <div class="game-frame">
+
+      <div class="game-scorebar">
+        <div class="game-score-item">
+          <span class="game-score-value" id="scoreValue">0</span>
+          <span class="game-score-label">Score</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="bestValue">0</span>
+          <span class="game-score-label">Best</span>
+        </div>
+        <div class="game-score-item">
+          <span class="game-score-value" id="arrowsValue">10</span>
+          <span class="game-score-label">Arrows</span>
+        </div>
+      </div>
+
+      <div class="game-canvas-wrap">
+        <canvas id="gameCanvas" class="game-canvas" width="400" height="500"></canvas>
+        <div class="game-overlay" id="startOverlay">
+          <h3>Arrow Shooter</h3>
+          <p>Click or tap to aim & shoot.<br>Hit the targets to score points!</p>
+          <button class="btn btn-primary" id="startBtn">Start Game</button>
+        </div>
+        <div class="game-overlay" id="gameOverOverlay" style="display:none;">
+          <h3>Round Over!</h3>
+          <p id="finalScoreText">Score: 0</p>
+          <button class="btn btn-primary" id="restartBtn">Play Again</button>
+        </div>
+      </div>
+
+      <p class="game-controls-hint">Move mouse to aim · Click to shoot · Hit bullseye for max points!</p>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>About This Game</h2>
+    <p>Arrow Shooter is a classic bow and arrow target game. Aim your bow at the moving targets, time your shot perfectly, and rack up the highest score. Each round gives you 10 arrows — the closer to bullseye, the more points you earn!</p>
+  </section>
+
+  <section class="info-section">
+    <h2>How to Play</h2>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span> Move your mouse (or finger on mobile) to aim the bow.</li>
+      <li><span class="step-num">2</span> Click or tap to shoot an arrow toward the target.</li>
+      <li><span class="step-num">3</span> Hit the center for max points. 10 arrows per round!</li>
+    </ol>
+  </section>
+
+  <section class="info-section related-tools game-card-list">
+    <h2>More Games</h2>
+    <div class="grid">
+      <a class="card" href="snake.html">
+        <span class="card-icon" data-lucide="gamepad-2"></span>
+        <span class="card-title">Snake</span>
+        <span class="card-desc">The classic — eat, grow, don't crash</span>
+      </a>
+      <a class="card" href="flappy-bird.html">
+        <span class="card-icon" data-lucide="bird"></span>
+        <span class="card-title">Flappy Bird</span>
+        <span class="card-desc">Tap to fly through the pipes</span>
+      </a>
+      <a class="card" href="dino-runner.html">
+        <span class="card-icon" data-lucide="footprints"></span>
+        <span class="card-title">Dino Runner</span>
+        <span class="card-desc">Jump over obstacles, endless runner</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="logo">Zaberz<span class="logo-dot">.</span></div>
+  <p>&copy; 2026 Zaberz.com | All Rights Reserved</p>
+</footer>
+
+<script src="../script.js" defer></script>
+<script src="arrow-shooter.js" defer></script>
+</body>
+</html>

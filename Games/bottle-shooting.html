@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Zaberz — Jungle Bottle Range</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#1b3a2c;
+    --sky-bot:#0a1a10;
+    --wood:#7a5230;
+    --wood-dark:#4a3018;
+    --wood-light:#a3773f;
+    --leaf-dark:#0e2416;
+    --leaf-mid:#1e4a2a;
+    --leaf-light:#3c7a3f;
+    --brass:#e8c565;
+    --flash:#ffcf6b;
+    --danger:#ff5a4d;
+    --text:#f2ecd8;
+    --text-dim:#a9baa5;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;width:100%;height:100%;
+    background:var(--sky-bot);
+    font-family:'Rajdhani',sans-serif;
+    color:var(--text);
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #zb-root{
+    position:relative;
+    width:100%;
+    height:100%;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+    background:linear-gradient(180deg, var(--sky-top) 0%, #123420 45%, var(--sky-bot) 100%);
+  }
+
+  /* ---------- jungle backdrop ---------- */
+  #zb-fog{
+    position:absolute; inset:0; pointer-events:none; z-index:1;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(60,122,63,0.25), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 85% 5%, rgba(60,122,63,0.2), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.5), transparent 70%);
+  }
+  .zb-leaf-corner{
+    position:absolute; z-index:2; pointer-events:none;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45));
+  }
+  #zb-leaf-tl{ top:-10px; left:-14px; width:150px; height:150px; transform:rotate(-8deg); }
+  #zb-leaf-tr{ top:-14px; right:-18px; width:170px; height:170px; transform:scaleX(-1) rotate(-4deg); }
+  #zb-leaf-bl{ bottom:-16px; left:-10px; width:120px; height:120px; transform:rotate(6deg) scaleY(-1); opacity:.85; }
+  #zb-leaf-br{ bottom:-20px; right:-14px; width:140px; height:140px; transform:scale(-1,-1) rotate(3deg); opacity:.85; }
+
+  .zb-firefly{
+    position:absolute; width:4px; height:4px; border-radius:50%;
+    background:var(--brass); box-shadow:0 0 8px var(--brass), 0 0 14px var(--brass);
+    z-index:2; pointer-events:none; opacity:0;
+    animation:zb-firefly-float 6s ease-in-out infinite;
+  }
+  @keyframes zb-firefly-float{
+    0%{ opacity:0; transform:translate(0,0); }
+    15%{ opacity:.9; }
+    50%{ transform:translate(12px,-18px); }
+    85%{ opacity:.7; }
+    100%{ opacity:0; transform:translate(-6px,-30px); }
+  }
+
+  /* ---------- HUD ---------- */
+  #zb-hud{
+    position:relative; z-index:6;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:6px;
+    padding:9px 12px;
+    background:linear-gradient(180deg, rgba(30,20,10,0.9), rgba(20,14,7,0.55));
+    border-bottom:3px solid var(--wood-dark);
+    flex-wrap:wrap;
+  }
+  .zb-stat{
+    display:flex; flex-direction:column; align-items:flex-start;
+    min-width:50px;
+    background:rgba(0,0,0,0.22);
+    border:1px solid rgba(232,197,101,0.25);
+    border-radius:6px;
+    padding:3px 8px;
+  }
+  .zb-stat span.lbl{
+    font-size:9px; letter-spacing:1.2px; color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .zb-stat span.val{
+    font-family:'Bangers',cursive;
+    font-size:18px; letter-spacing:1px;
+    color:var(--brass);
+    text-shadow:0 1px 0 rgba(0,0,0,0.6);
+  }
+  .zb-stat.coins span.val{ color:#ffe27a; }
+  .zb-stat.bullets span.val{ color:var(--flash); }
+  .zb-stat.bottles span.val{ color:#9be89f; }
+
+  #zb-shop-btn{
+    font-family:'Bangers',cursive;
+    font-size:13px; letter-spacing:1px;
+    background:linear-gradient(180deg, var(--wood-light), var(--wood));
+    border:2px solid var(--wood-dark);
+    color:var(--text);
+    padding:7px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(0,0,0,0.4);
+    white-space:nowrap;
+  }
+  #zb-shop-btn:active{ transform:translateY(2px); box-shadow:none; }
+
+  /* ---------- Arena ---------- */
+  #zb-arena{
+    position:relative;
+    flex:1;
+    overflow:hidden;
+    touch-action:none;
+    cursor:pointer;
+    z-index:3;
+    min-height:360px;
+  }
+  #zb-ground{
+    position:absolute; left:0; right:0; bottom:0; height:16%;
+    background:linear-gradient(180deg, rgba(20,10,4,0) 0%, rgba(20,10,4,0.55) 60%, rgba(12,7,3,0.8) 100%);
+    z-index:1; pointer-events:none;
+  }
+  #zb-orbit-ring{
+    position:absolute; left:50%; top:50%;
+    border:1px dashed rgba(232,197,101,0.18);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:2;
+  }
+  #zb-hint{
+    position:absolute; left:50%; bottom:10px; transform:translateX(-50%);
+    font-size:12px; letter-spacing:.5px; color:var(--text-dim);
+    background:rgba(0,0,0,0.35); padding:5px 12px; border-radius:20px;
+    z-index:5; pointer-events:none; text-align:center; white-space:nowrap;
+  }
+
+  /* ---------- gun ---------- */
+  #zb-gun-mount{
+    position:absolute; left:50%; top:50%;
+    width:10px; height:10px;
+    transform:translate(-50%,-50%) rotate(0deg);
+    z-index:4;
+    pointer-events:none;
+  }
+  #zb-gun-body{
+    position:absolute; left:50%; top:50%;
+    width:74px; height:74px;
+    transform:translate(-50%,-50%);
+  }
+  #zb-gun-body.recoil{ animation:zb-recoil .14s ease-out; }
+  @keyframes zb-recoil{
+    0%{ transform:translate(-50%,-50%) translateY(0); }
+    30%{ transform:translate(-50%,-50%) translateY(7px) scale(0.97); }
+    100%{ transform:translate(-50%,-50%) translateY(0); }
+  }
+  #zb-muzzle-flash{
+    position:absolute; left:50%; top:-2px;
+    width:26px; height:26px;
+    transform:translate(-50%,-50%) scale(0);
+    background:radial-gradient(circle, #fff 0%, var(--flash) 35%, rgba(255,90,0,0) 70%);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  #zb-muzzle-flash.fire{ animation:zb-flash .16s ease-out; }
+  @keyframes zb-flash{
+    0%{ opacity:1; transform:translate(-50%,-50%) scale(0.3); }
+    50%{ opacity:1; transform:translate(-50%,-50%) scale(1.3); }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(1.6); }
+  }
+  #zb-base-pad{
+    position:absolute; left:50%; top:50%;
+    width:52px; height:16px;
+    background:radial-gradient(ellipse, rgba(0,0,0,0.45), transparent 70%);
+    transform:translate(-50%,-50%) translateY(20px);
+    z-index:3; pointer-events:none; border-radius:50%;
+  }
+
+  .zb-bottle{
+    position:absolute; left:50%; top:50%;
+    width:32px; height:60px;
+    transform-origin:50% 50%;
+    z-index:3;
+    filter:drop-shadow(2px 4px 3px rgba(0,0,0,0.5));
+    pointer-events:none;
+  }
+  .zb-bottle.popping{ animation:zb-pop .32s ease-out forwards; }
+  @keyframes zb-pop{
+    0%{ opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg); }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(0.15) rotate(160deg); }
+  }
+  .zb-shard{
+    position:absolute; width:5px; height:5px; border-radius:1px;
+    pointer-events:none; z-index:6;
+    animation:zb-shard .5s ease-out forwards;
+  }
+  @keyframes zb-shard{ to{ transform:translate(var(--sx), var(--sy)) rotate(360deg); opacity:0; } }
+
+  .zb-bullet{
+    position:absolute; left:50%; top:50%;
+    width:9px; height:3px; border-radius:2px;
+    background:linear-gradient(90deg, #fff, var(--flash));
+    box-shadow:0 0 6px var(--flash), 0 0 10px rgba(255,150,0,0.6);
+    z-index:5; pointer-events:none;
+    transform-origin:0 50%;
+  }
+
+  .zb-coinpop{
+    position:absolute; z-index:7; pointer-events:none;
+    font-family:'Bangers',cursive; font-size:16px; letter-spacing:1px;
+    color:#ffe27a; text-shadow:0 1px 3px rgba(0,0,0,0.7);
+    animation:zb-coinpop .7s ease-out forwards;
+    transform:translate(-50%,-50%);
+  }
+  @keyframes zb-coinpop{
+    0%{ opacity:1; transform:translate(-50%,-50%) translateY(0); }
+    100%{ opacity:0; transform:translate(-50%,-70px) translateY(0); }
+  }
+
+  #zb-no-ammo-flash{
+    position:absolute; inset:0; z-index:8; pointer-events:none;
+    background:rgba(255,90,77,0.15); opacity:0;
+  }
+  #zb-no-ammo-flash.flash{ animation:zb-noammo .3s ease-out; }
+  @keyframes zb-noammo{ 0%{opacity:1;} 100%{opacity:0;} }
+
+  /* ---------- Overlays ---------- */
+  .zb-overlay{
+    position:absolute; inset:0; z-index:20;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:10px;
+    background:rgba(6,10,7,0.75);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease;
+    text-align:center; padding:20px;
+  }
+  .zb-overlay.show{ opacity:1; pointer-events:auto; }
+  .zb-big-title{
+    font-family:'Bangers',cursive;
+    font-size:clamp(28px,7vw,46px);
+    letter-spacing:2px;
+  }
+  #zb-levelcomplete .zb-big-title{ color:#9be89f; text-shadow:0 0 18px rgba(155,232,159,.6); animation:zb-pulse-text .8s ease-in-out; }
+  #zb-gameover .zb-big-title{ color:var(--danger); text-shadow:0 0 18px rgba(255,90,77,.6); }
+  @keyframes zb-pulse-text{ 0%{ transform:scale(0.7); opacity:0; } 60%{ transform:scale(1.08); opacity:1; } 100%{ transform:scale(1); } }
+  .zb-sub{ color:var(--text-dim); font-size:14px; letter-spacing:.4px; }
+  .zb-btn{
+    font-family:'Bangers',cursive;
+    font-size:15px; letter-spacing:1px;
+    background:linear-gradient(180deg, var(--wood-light), var(--wood));
+    border:2px solid var(--wood-dark);
+    color:var(--text);
+    padding:11px 26px;
+    border-radius:8px;
+    cursor:pointer;
+    box-shadow:0 3px 0 rgba(0,0,0,0.5);
+    margin-top:6px;
+  }
+  .zb-btn:active{ transform:translateY(3px); box-shadow:none; }
+
+  /* ---------- Shop ---------- */
+  #zb-shop{ align-items:stretch; justify-content:flex-start; }
+  .zb-shop-panel{
+    width:min(92%, 420px);
+    max-height:80%;
+    overflow-y:auto;
+    background:#15100a;
+    border:2px solid var(--wood-dark);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
+  }
+  .zb-shop-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .zb-shop-head h2{ font-family:'Bangers',cursive; font-size:20px; letter-spacing:1.5px; margin:0; color:var(--brass); }
+  #zb-shop-close{
+    background:none; border:1px solid var(--wood-dark); color:var(--text-dim);
+    width:28px; height:28px; border-radius:6px; cursor:pointer; font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #zb-shop-close:hover{ color:var(--danger); border-color:var(--danger); }
+  .zb-gun-card{
+    display:flex; align-items:center; gap:12px;
+    background:#1e1710;
+    border:1px solid #33281a;
+    border-radius:10px;
+    padding:10px 12px;
+    margin-bottom:8px;
+  }
+  .zb-gun-card.equipped{ border-color:var(--brass); box-shadow:0 0 14px rgba(232,197,101,.15) inset; }
+  .zb-gun-card .zb-gun-thumb{ width:52px; height:52px; flex-shrink:0; }
+  .zb-gun-info{ flex:1; min-width:0; }
+  .zb-gun-info .name{ font-family:'Bangers',cursive; font-size:15px; letter-spacing:.5px; }
+  .zb-gun-info .price{ font-size:12px; color:var(--text-dim); margin-top:2px; }
+  .zb-gun-action{
+    font-family:'Bangers',cursive; font-size:12px; letter-spacing:1px;
+    padding:8px 12px; border-radius:6px; cursor:pointer; border:1px solid #33281a;
+    background:transparent; color:var(--text-dim); white-space:nowrap;
+  }
+  .zb-gun-action.buy{ border-color:#ffe27a; color:#ffe27a; }
+  .zb-gun-action.buy:hover{ background:rgba(255,226,122,.12); }
+  .zb-gun-action.equip{ border-color:#9be89f; color:#9be89f; }
+  .zb-gun-action.equip:hover{ background:rgba(155,232,159,.15); }
+  .zb-gun-action.equipped-tag{ border-color:var(--brass); color:var(--brass); cursor:default; }
+  .zb-gun-action.locked{ opacity:.4; cursor:not-allowed; }
+
+  @media (max-width:480px){
+    #zb-hud{ padding:7px 8px; gap:4px; }
+    .zb-stat{ min-width:40px; padding:2px 6px; }
+    .zb-stat span.val{ font-size:14px; }
+    #zb-gun-body{ width:58px; height:58px; }
+    .zb-bottle{ width:24px; height:46px; }
+    #zb-hint{ font-size:10px; }
+  }
+</style>
+</head>
+<body>
+<div id="zb-root">
+  <div id="zb-fog"></div>
+  <svg id="zb-leaf-tl" class="zb-leaf-corner" viewBox="0 0 120 120"><path d="M0 0 C 40 5, 70 20, 80 55 C 60 45, 40 40, 0 45 Z" fill="#173a20"/><path d="M0 0 C 30 10, 55 30, 60 60 C 40 50, 20 45, 0 40 Z" fill="#1e4a2a"/></svg>
+  <svg id="zb-leaf-tr" class="zb-leaf-corner" viewBox="0 0 120 120"><path d="M0 0 C 40 5, 70 20, 80 55 C 60 45, 40 40, 0 45 Z" fill="#173a20"/><path d="M0 0 C 30 10, 55 30, 60 60 C 40 50, 20 45, 0 40 Z" fill="#1e4a2a"/></svg>
+  <svg id="zb-leaf-bl" class="zb-leaf-corner" viewBox="0 0 120 120"><path d="M0 0 C 40 5, 70 20, 80 55 C 60 45, 40 40, 0 45 Z" fill="#122e19"/></svg>
+  <svg id="zb-leaf-br" class="zb-leaf-corner" viewBox="0 0 120 120"><path d="M0 0 C 40 5, 70 20, 80 55 C 60 45, 40 40, 0 45 Z" fill="#122e19"/></svg>
+
+  <div id="zb-hud">
+    <div class="zb-stat"><span class="lbl">Level</span><span class="val" id="zb-level">1</span></div>
+    <div class="zb-stat coins"><span class="lbl">Coins</span><span class="val" id="zb-coins">0</span></div>
+    <div class="zb-stat bullets"><span class="lbl">Ammo</span><span class="val" id="zb-bullets">3</span></div>
+    <div class="zb-stat bottles"><span class="lbl">Targets</span><span class="val" id="zb-bottles-left">2</span></div>
+    <button id="zb-shop-btn">Armory</button>
+  </div>
+
+  <div id="zb-arena">
+    <div id="zb-orbit-ring"></div>
+    <div id="zb-ground"></div>
+    <div id="zb-no-ammo-flash"></div>
+
+    <div id="zb-base-pad"></div>
+    <div id="zb-gun-mount">
+      <div id="zb-gun-body">
+        <div id="zb-muzzle-flash"></div>
+        <svg id="zb-gun-svg" viewBox="0 0 80 80" width="100%" height="100%">
+          <g id="zb-gun-graphic"></g>
+        </svg>
+      </div>
+    </div>
+
+    <div id="zb-hint">Tap, click, or press SPACE to fire when a bottle lines up</div>
+  </div>
+
+  <div class="zb-overlay" id="zb-levelcomplete">
+    <div class="zb-big-title">LEVEL CLEAR!</div>
+    <div class="zb-sub" id="zb-lc-sub">Advancing to level 2…</div>
+  </div>
+
+  <div class="zb-overlay" id="zb-gameover">
+    <div class="zb-big-title">OUT OF AMMO</div>
+    <div class="zb-sub">You reached <span id="zb-go-level">level 1</span>. Coins are safe.</div>
+    <button class="zb-btn" id="zb-restart-btn">Retry Level</button>
+  </div>
+
+  <div class="zb-overlay" id="zb-shop">
+    <div class="zb-shop-panel">
+      <div class="zb-shop-head">
+        <h2>Armory</h2>
+        <button id="zb-shop-close">✕</button>
+      </div>
+      <div id="zb-gun-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ CONFIG ============ */
+  var STORAGE_KEY = 'zaberz_bottle_shooter_v2';
+  var HIT_TOLERANCE_RAD = 0.24;   // ~14 degrees window to count as a hit
+  var SHOT_COOLDOWN_MS = 160;
+  var COIN_PER_HIT_BASE = 8;
+
+  var GUNS = [
+    { name:'Scout Pistol',   price:0,    body:'#8f8f96', accent:'#5b3a21', barrel:'#6b6b70', tier:1 },
+    { name:'Ranger Rifle',   price:100,  body:'#4a5d34', accent:'#2f3d22', barrel:'#3b4a28', tier:2 },
+    { name:'Camo Blaster',   price:250,  body:'#3c6b35', accent:'#7a5230', barrel:'#2c4d27', tier:3 },
+    { name:'Gold Hunter',    price:500,  body:'#d4af37', accent:'#3a2f10', barrel:'#8a6d1f', tier:4 },
+    { name:'Apex Cannon',    price:1000, body:'#c81e2c', accent:'#1a1a1a', barrel:'#7a1017', tier:5 }
+  ];
+
+  var BOTTLE_COLORS = ['#7fd1c9', '#e0a94c', '#8fbf5e', '#c97a4a', '#6fa8dc'];
+
+  /* ============ STATE ============ */
+  var state = {
+    level: 1,
+    coins: 0,
+    bullets: 0,
+    bulletsMax: 0,
+    ownedGuns: [0],
+    equippedGun: 0,
+    bottles: [],
+    gunAngle: -Math.PI / 2,   // radians, -90deg = pointing up
+    gunSpeed: 1.1,            // rad/s
+    isGameOver: false,
+    isLevelTransition: false,
+    lastShotAt: 0,
+    arenaW: 0, arenaH: 0, cx: 0, cy: 0
+  };
+
+  /* ============ DOM ============ */
+  var $ = function(id){ return document.getElementById(id); };
+  var arena = $('zb-arena');
+  var gunMount = $('zb-gun-mount');
+  var gunBody = $('zb-gun-body');
+  var gunGraphic = $('zb-gun-graphic');
+  var muzzleFlash = $('zb-muzzle-flash');
+  var orbitRing = $('zb-orbit-ring');
+  var elLevel = $('zb-level');
+  var elCoins = $('zb-coins');
+  var elBullets = $('zb-bullets');
+  var elBottlesLeft = $('zb-bottles-left');
+  var lcOverlay = $('zb-levelcomplete');
+  var lcSub = $('zb-lc-sub');
+  var goOverlay = $('zb-gameover');
+  var goLevel = $('zb-go-level');
+  var restartBtn = $('zb-restart-btn');
+  var shopOverlay = $('zb-shop');
+  var shopBtn = $('zb-shop-btn');
+  var shopClose = $('zb-shop-close');
+  var gunList = $('zb-gun-list');
+  var noAmmoFlash = $('zb-no-ammo-flash');
+  var hint = $('zb-hint');
+
+  /* ============ PERSISTENCE ============ */
+  function save(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        coins: state.coins,
+        ownedGuns: state.ownedGuns,
+        equippedGun: state.equippedGun
+      }));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(typeof data.coins === 'number') state.coins = data.coins;
+        if(Array.isArray(data.ownedGuns) && data.ownedGuns.length) state.ownedGuns = data.ownedGuns;
+        if(typeof data.equippedGun === 'number') state.equippedGun = data.equippedGun;
+      }
+    }catch(e){}
+  }
+
+  /* ============ GUN ART ============ */
+  function gunSvgMarkup(gun){
+    var body = gun.body, accent = gun.accent, barrel = gun.barrel, tier = gun.tier;
+    var extras = '';
+
+    if(tier >= 3){
+      // scope
+      extras += '<rect x="34" y="8" width="12" height="5" rx="1.5" fill="' + accent + '"/>' +
+                '<circle cx="40" cy="7" r="4.5" fill="none" stroke="' + accent + '" stroke-width="2"/>';
+    }
+    if(tier >= 4){
+      // extended magazine
+      extras += '<path d="M32 56 L30 74 L38 74 L40 56 Z" fill="' + accent + '"/>';
+    }
+    if(tier >= 5){
+      // side vents + glowing core
+      extras += '<rect x="20" y="34" width="4" height="12" rx="1" fill="' + accent + '"/>' +
+                '<rect x="56" y="34" width="4" height="12" rx="1" fill="' + accent + '"/>' +
+                '<circle cx="40" cy="40" r="5" fill="#ffcf6b" opacity="0.9"/>' +
+                '<circle cx="40" cy="40" r="8" fill="none" stroke="#ffcf6b" stroke-width="1.4" opacity="0.5"/>';
+    }
+    if(tier >= 2){
+      extras += '<rect x="35" y="30" width="10" height="4" rx="1" fill="' + accent + '"/>'; // rail
+    }
+
+    return (
+      '<g>' +
+        /* barrel */
+        '<rect x="36" y="4" width="8" height="26" rx="2" fill="' + barrel + '"/>' +
+        '<rect x="37" y="4" width="2" height="24" fill="rgba(255,255,255,0.15)"/>' +
+        /* front sight */
+        '<rect x="38.5" y="2" width="3" height="4" fill="' + accent + '"/>' +
+        /* slide / body */
+        '<rect x="24" y="28" width="32" height="16" rx="4" fill="' + body + '"/>' +
+        '<rect x="24" y="28" width="32" height="5" rx="2.5" fill="rgba(255,255,255,0.12)"/>' +
+        /* hammer */
+        '<rect x="49" y="24" width="6" height="7" rx="2" fill="' + accent + '"/>' +
+        /* trigger guard */
+        '<path d="M31 44 Q31 54 40 54 Q41 54 41 52 Q34 52 33 44 Z" fill="none" stroke="' + accent + '" stroke-width="2.4"/>' +
+        /* trigger */
+        '<rect x="36" y="45" width="3" height="6" rx="1" fill="' + accent + '"/>' +
+        /* grip */
+        '<path d="M28 44 L48 44 L44 72 L32 72 Z" fill="' + body + '"/>' +
+        '<path d="M31 48 L45 48 L42.5 68 L33.5 68 Z" fill="rgba(0,0,0,0.18)"/>' +
+        extras +
+      '</g>'
+    );
+  }
+  function renderGun(){
+    var gun = GUNS[state.equippedGun];
+    gunGraphic.innerHTML = gunSvgMarkup(gun);
+    gunBody.style.filter = 'drop-shadow(2px 4px 3px rgba(0,0,0,0.55))';
+  }
+
+  /* ============ BOTTLE ART ============ */
+  function bottleSvgMarkup(color){
+    return (
+      '<svg viewBox="0 0 32 60" width="100%" height="100%">' +
+        '<path d="M12 2 H20 V11 C20 13 23 14 23 19 V54 C23 57 20 59 17 59 H15 C12 59 9 57 9 54 V19 C9 14 12 13 12 11 Z" ' +
+          'fill="' + color + '" opacity="0.85" stroke="rgba(0,0,0,0.35)" stroke-width="1.2"/>' +
+        '<rect x="13" y="4" width="6" height="6" fill="' + color + '" opacity="0.6"/>' +
+        '<rect x="10" y="28" width="4" height="20" fill="rgba(255,255,255,0.25)"/>' +
+        '<rect x="9" y="40" width="14" height="5" fill="rgba(60,40,20,0.55)"/>' +
+      '</svg>'
+    );
+  }
+
+  /* ============ ARENA SIZING (recomputed every frame, self-healing) ============ */
+  function measureArena(){
+    var r = arena.getBoundingClientRect();
+    var w = r.width, h = r.height;
+    if(!w || !h){
+      w = window.innerWidth || 360;
+      h = (window.innerHeight || 640) - 70;
+    }
+    state.arenaW = w;
+    state.arenaH = h;
+    state.cx = w / 2;
+    state.cy = h / 2;
+  }
+  function maxSafeRadius(){
+    return Math.max(55, Math.min(state.cx, state.cy) - 36);
+  }
+  function layoutOrbitRing(){
+    var d = maxSafeRadius() * 2;
+    orbitRing.style.width = d + 'px';
+    orbitRing.style.height = d + 'px';
+  }
+  window.addEventListener('resize', function(){ measureArena(); layoutOrbitRing(); });
+
+  /* ============ LEVEL SETUP ============ */
+  function clearBottles(){
+    state.bottles.forEach(function(b){ if(b.el && b.el.parentNode) b.el.parentNode.removeChild(b.el); });
+    state.bottles = [];
+  }
+
+  function startLevel(levelNum){
+    state.isGameOver = false;
+    state.isLevelTransition = false;
+    state.level = levelNum;
+    clearBottles();
+
+    var count = levelNum + 1;
+    state.bulletsMax = count + 2;
+    state.bullets = state.bulletsMax;
+    state.gunSpeed = Math.min(2.3, 1.05 + (levelNum - 1) * 0.16);
+
+    var maxR = maxSafeRadius();
+    var minR = 70;
+    var baseRadius = Math.min(maxR, minR + (levelNum - 1) * 14);
+
+    for(var i = 0; i < count; i++){
+      var angle = (Math.PI * 2 / count) * i + Math.random() * 0.25;
+      var radiusJitter = (i % 2 === 0) ? 0 : Math.min(22, Math.max(0, maxR - baseRadius));
+      var radius = Math.min(maxR, baseRadius + radiusJitter);
+      var dir = (i % 2 === 0) ? 1 : -1;
+      var speed = (0.18 + (levelNum - 1) * 0.03) * dir * (0.85 + Math.random() * 0.3);
+      speed = Math.max(-0.55, Math.min(0.55, speed));
+
+      var el = document.createElement('div');
+      el.className = 'zb-bottle';
+      var color = BOTTLE_COLORS[i % BOTTLE_COLORS.length];
+      el.innerHTML = bottleSvgMarkup(color);
+      arena.appendChild(el);
+
+      state.bottles.push({ angle: angle, radius: radius, speed: speed, alive: true, el: el });
+    }
+
+    updateHUD();
+    goOverlay.classList.remove('show');
+    lcOverlay.classList.remove('show');
+    layoutOrbitRing();
+    positionBottlesImmediately();
+  }
+
+  function positionBottlesImmediately(){
+    state.bottles.forEach(function(b){
+      var x = Math.cos(b.angle) * b.radius;
+      var y = Math.sin(b.angle) * b.radius;
+      b.el.style.transform = 'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px)';
+    });
+  }
+
+  function restartCurrentLevel(){ startLevel(state.level); }
+
+  /* ============ HUD ============ */
+  function updateHUD(){
+    elLevel.textContent = state.level;
+    elCoins.textContent = state.coins;
+    elBullets.textContent = Math.max(0, state.bullets);
+    var left = state.bottles.filter(function(b){ return b.alive; }).length;
+    elBottlesLeft.textContent = left;
+  }
+
+  /* ============ GAME LOOP ============ */
+  var lastTime = null;
+  function tick(ts){
+    if(lastTime === null) lastTime = ts;
+    var dt = Math.min(0.05, (ts - lastTime) / 1000);
+    lastTime = ts;
+
+    measureArena();
+
+    if(!state.isGameOver && !state.isLevelTransition){
+      // rotate gun continuously
+      state.gunAngle += state.gunSpeed * dt;
+      var deg = state.gunAngle * 180 / Math.PI + 90;
+      gunMount.style.transform = 'translate(-50%,-50%) rotate(' + deg + 'deg)';
+      gunMount.style.left = state.cx + 'px';
+      gunMount.style.top = state.cy + 'px';
+
+      // orbit bottles
+      for(var i = 0; i < state.bottles.length; i++){
+        var b = state.bottles[i];
+        if(!b.alive) continue;
+        b.angle += b.speed * dt;
+        var x = Math.cos(b.angle) * b.radius;
+        var y = Math.sin(b.angle) * b.radius;
+        b.el.style.transform = 'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px)';
+      }
+    } else {
+      gunMount.style.left = state.cx + 'px';
+      gunMount.style.top = state.cy + 'px';
+    }
+
+    orbitRing.style.left = state.cx + 'px';
+    orbitRing.style.top = state.cy + 'px';
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ============ SHOOTING ============ */
+  function spawnShard(x, y, color){
+    for(var i = 0; i < 6; i++){
+      var s = document.createElement('div');
+      s.className = 'zb-shard';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      s.style.background = color;
+      var ang = Math.random() * Math.PI * 2;
+      var dist = 16 + Math.random() * 20;
+      s.style.setProperty('--sx', Math.cos(ang) * dist + 'px');
+      s.style.setProperty('--sy', Math.sin(ang) * dist + 'px');
+      arena.appendChild(s);
+      (function(node){ setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 520); })(s);
+    }
+  }
+  function spawnCoinPop(x, y, amount){
+    var el = document.createElement('div');
+    el.className = 'zb-coinpop';
+    el.textContent = '+' + amount;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    arena.appendChild(el);
+    setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 720);
+  }
+
+  function fireBullet(angle, targetDist, onArrive){
+    var gun = GUNS[state.equippedGun];
+    var bullet = document.createElement('div');
+    bullet.className = 'zb-bullet';
+    bullet.style.background = 'linear-gradient(90deg, #fff, ' + gun.body + ')';
+    arena.appendChild(bullet);
+
+    var muzzleR = 34;
+    var startX = state.cx + Math.cos(angle) * muzzleR;
+    var startY = state.cy + Math.sin(angle) * muzzleR;
+    var angDeg = angle * 180 / Math.PI;
+
+    bullet.style.left = startX + 'px';
+    bullet.style.top = startY + 'px';
+    bullet.style.transform = 'translate(0,-50%) rotate(' + angDeg + 'deg)';
+    bullet.getBoundingClientRect();
+
+    var travel = Math.max(10, targetDist - muzzleR);
+    var duration = Math.max(90, Math.min(300, travel * 0.7));
+    bullet.style.transition = 'transform ' + duration + 'ms linear, opacity ' + duration + 'ms linear';
+    requestAnimationFrame(function(){
+      bullet.style.transform = 'translate(' + travel + 'px,-50%) rotate(' + angDeg + 'deg)';
+    });
+
+    setTimeout(function(){
+      if(bullet.parentNode) bullet.parentNode.removeChild(bullet);
+      if(onArrive) onArrive();
+    }, duration);
+  }
+
+  function angleDiff(a, b){
+    var d = Math.abs(a - b) % (Math.PI * 2);
+    return d > Math.PI ? Math.PI * 2 - d : d;
+  }
+
+  function shoot(){
+    if(state.isGameOver || state.isLevelTransition) return;
+    var now = performance.now();
+    if(now - state.lastShotAt < SHOT_COOLDOWN_MS) return;
+
+    if(state.bullets <= 0){
+      noAmmoFlash.classList.remove('flash');
+      void noAmmoFlash.offsetWidth;
+      noAmmoFlash.classList.add('flash');
+      return;
+    }
+    state.lastShotAt = now;
+
+    var angle = state.gunAngle;
+
+    // recoil + muzzle flash
+    gunBody.classList.remove('recoil');
+    void gunBody.offsetWidth;
+    gunBody.classList.add('recoil');
+    muzzleFlash.classList.remove('fire');
+    void muzzleFlash.offsetWidth;
+    muzzleFlash.classList.add('fire');
+
+    if(hint && !hint.dataset.hidden){
+      hint.style.display = 'none';
+      hint.dataset.hidden = '1';
+    }
+
+    var best = null, bestDiff = Infinity;
+    state.bottles.forEach(function(b){
+      if(!b.alive) return;
+      var d = angleDiff(b.angle, angle);
+      if(d < bestDiff){ bestDiff = d; best = b; }
+    });
+    var hit = best && bestDiff <= HIT_TOLERANCE_RAD;
+    var maxDist = Math.max(state.arenaW, state.arenaH);
+    var targetDist = hit ? best.radius : maxDist;
+
+    state.bullets -= 1;
+    updateHUD();
+
+    fireBullet(angle, targetDist, function(){
+      if(hit && best.alive){
+        best.alive = false;
+        best.el.classList.add('popping');
+        var bx = state.cx + Math.cos(best.angle) * best.radius;
+        var by = state.cy + Math.sin(best.angle) * best.radius;
+        var color = BOTTLE_COLORS[state.bottles.indexOf(best) % BOTTLE_COLORS.length];
+        spawnShard(bx, by, color);
+        var coinAmount = COIN_PER_HIT_BASE + (state.level - 1) * 2;
+        state.coins += coinAmount;
+        spawnCoinPop(bx, by - 14, coinAmount);
+        save();
+        setTimeout(function(){ if(best.el.parentNode) best.el.parentNode.removeChild(best.el); }, 340);
+        updateHUD();
+      }
+      checkRoundEnd();
+    });
+  }
+
+  arena.addEventListener('click', shoot);
+  arena.addEventListener('touchstart', function(e){ e.preventDefault(); shoot(); }, { passive:false });
+  window.addEventListener('keydown', function(e){
+    if(e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar'){
+      if(e.repeat) return;
+      e.preventDefault();
+      shoot();
+    }
+  });
+
+  /* ============ ROUND / LEVEL FLOW ============ */
+  function checkRoundEnd(){
+    var aliveLeft = state.bottles.filter(function(b){ return b.alive; }).length;
+
+    if(aliveLeft === 0){
+      state.isLevelTransition = true;
+      lcSub.textContent = 'Advancing to level ' + (state.level + 1) + '…';
+      lcOverlay.classList.add('show');
+      setTimeout(function(){
+        lcOverlay.classList.remove('show');
+        startLevel(state.level + 1);
+      }, 1300);
+      return;
+    }
+    if(state.bullets <= 0 && aliveLeft > 0){
+      state.isGameOver = true;
+      goLevel.textContent = 'level ' + state.level;
+      goOverlay.classList.add('show');
+    }
+  }
+
+  restartBtn.addEventListener('click', function(){
+    goOverlay.classList.remove('show');
+    restartCurrentLevel();
+  });
+
+  /* ============ SHOP ============ */
+  function renderShop(){
+    gunList.innerHTML = '';
+    GUNS.forEach(function(gun, idx){
+      var owned = state.ownedGuns.indexOf(idx) !== -1;
+      var equipped = state.equippedGun === idx;
+
+      var card = document.createElement('div');
+      card.className = 'zb-gun-card' + (equipped ? ' equipped' : '');
+
+      var thumb = document.createElement('div');
+      thumb.className = 'zb-gun-thumb';
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 80 80');
+      svg.style.width = '100%';
+      svg.style.height = '100%';
+      svg.innerHTML = gunSvgMarkup(gun);
+      thumb.appendChild(svg);
+
+      var info = document.createElement('div');
+      info.className = 'zb-gun-info';
+      var priceText = gun.price === 0 ? 'Starting weapon' : (gun.price + ' coins');
+      info.innerHTML = '<div class="name">' + gun.name + '</div><div class="price">' + priceText + '</div>';
+
+      var action = document.createElement('button');
+      if(equipped){
+        action.className = 'zb-gun-action equipped-tag';
+        action.textContent = 'EQUIPPED';
+        action.disabled = true;
+      } else if(owned){
+        action.className = 'zb-gun-action equip';
+        action.textContent = 'EQUIP';
+        action.addEventListener('click', function(){
+          state.equippedGun = idx;
+          renderGun();
+          renderShop();
+          save();
+        });
+      } else {
+        var canAfford = state.coins >= gun.price;
+        action.className = 'zb-gun-action buy' + (canAfford ? '' : ' locked');
+        action.textContent = canAfford ? 'BUY' : 'LOCKED';
+        if(canAfford){
+          action.addEventListener('click', function(){
+            if(state.coins >= gun.price){
+              state.coins -= gun.price;
+              state.ownedGuns.push(idx);
+              state.equippedGun = idx;
+              renderGun();
+              updateHUD();
+              renderShop();
+              save();
+            }
+          });
+        } else {
+          action.disabled = true;
+        }
+      }
+
+      card.appendChild(thumb);
+      card.appendChild(info);
+      card.appendChild(action);
+      gunList.appendChild(card);
+    });
+  }
+
+  shopBtn.addEventListener('click', function(){
+    renderShop();
+    shopOverlay.classList.add('show');
+  });
+  shopClose.addEventListener('click', function(){ shopOverlay.classList.remove('show'); });
+  shopOverlay.addEventListener('click', function(e){ if(e.target === shopOverlay) shopOverlay.classList.remove('show'); });
+
+  /* ============ FIREFLIES (decorative) ============ */
+  function spawnFireflies(){
+    for(var i = 0; i < 10; i++){
+      var f = document.createElement('div');
+      f.className = 'zb-firefly';
+      f.style.left = (Math.random() * 90 + 5) + '%';
+      f.style.top = (Math.random() * 70 + 10) + '%';
+      f.style.animationDelay = (Math.random() * 6) + 's';
+      arena.appendChild(f);
+    }
+  }
+
+  /* ============ INIT ============ */
+  function init(){
+    load();
+    measureArena();
+    layoutOrbitRing();
+    renderGun();
+    spawnFireflies();
+    startLevel(1);
+    updateHUD();
+    requestAnimationFrame(tick);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

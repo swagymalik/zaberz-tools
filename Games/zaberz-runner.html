@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXSZCRXTMC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXSZCRXTMC');
+</script>
+
+<title>Zaberz Runner 3D — True 3D Endless Runner | Zaberz</title>
+<meta name="description" content="Play Zaberz Runner 3D online! A real WebGL 3D behind-the-back endless runner with 4 worlds, characters & power-ups. Built by Zaberz!">
+<meta name="keywords" content="zaberz runner 3d, true 3d runner, behind the back runner, endless runner game, original game, webgl game">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../android-chrome-512x512.png">
+<link rel="canonical" href="https://zaberz.com/games/zaberz-runner.html">
+<meta property="og:title" content="Zaberz Runner 3D — True 3D Endless Runner | Zaberz">
+<meta property="og:description" content="A real WebGL 3D behind-the-back endless runner with 4 worlds, characters & power-ups!">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zaberz.com/games/zaberz-runner.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020412; --surface: rgba(10,15,35,0.7); --border: rgba(255,255,255,0.08);
+  --text: #e8ecf4; --muted: #8892b8; --accent: #00ffff; --purple: #a855f7; --gold: #fbbf24;
+  --red: #ef4444; --green: #22c55e; --radius: 16px; --ease: cubic-bezier(0.22,1,0.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); overflow:hidden; font-family:'Poppins',sans-serif;
+  width:100vw; height:100vh; touch-action:none; user-select:none; -webkit-user-select:none;
+}
+canvas{display:block; position:fixed; top:0; left:0; z-index:1;}
+#uiLayer{
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.screen{
+  display:none; flex-direction:column; align-items:center;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px 20px;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  pointer-events:auto; text-align:center; color:var(--text);
+  max-width:400px; width:90%; gap:12px; animation:fadeIn 0.4s var(--ease);
+}
+.screen.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+h1,h2,h3{font-family:'Sora',sans-serif;}
+.logo-text{font-size:34px; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.logo-sub{font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase;}
+.btn{
+  font-family:'Sora',sans-serif; font-weight:700; font-size:13px; padding:11px 24px;
+  border-radius:999px; cursor:pointer; transition:all 0.3s var(--ease); border:none; width:100%;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--purple)); color:var(--bg);}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,255,255,0.3);}
+.btn-secondary{background:transparent; color:var(--text); border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--accent); color:var(--accent);}
+.btn-small{padding:7px 16px; font-size:11px; width:auto;}
+.stats-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+.stat-item{text-align:center; min-width:55px;}
+.stat-val{font-family:'Sora',sans-serif; font-size:18px; font-weight:800; color:var(--accent);}
+.stat-lbl{font-size:8px; color:var(--muted); text-transform:uppercase;}
+.char-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%;}
+.char-card{
+  background:rgba(255,255,255,0.03); border:2px solid var(--border);
+  border-radius:10px; padding:10px 6px; cursor:pointer; transition:all 0.3s var(--ease); text-align:center;
+}
+.char-card:hover{border-color:var(--accent); transform:translateY(-2px);}
+.char-card.selected{border-color:var(--gold); box-shadow:0 0 12px rgba(251,191,36,0.3);}
+.char-card.locked{opacity:0.5; cursor:not-allowed;}
+.char-card .char-icon{font-size:30px; display:block; margin-bottom:2px;}
+.char-card .char-name{font-size:9px; color:var(--muted); font-weight:600;}
+.char-card .char-price{font-size:9px; color:var(--gold);}
+.char-card .char-status{font-size:8px; color:var(--green);}
+.back-btn{
+  position:absolute; top:10px; left:10px; z-index:30;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text); padding:6px 12px; border-radius:999px;
+  font-size:11px; cursor:pointer; text-decoration:none; pointer-events:auto; backdrop-filter:blur(8px);
+}
+#loadingScreen{
+  position:fixed; inset:0; z-index:50; background:var(--bg);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+}
+#loadingScreen .logo-text{font-size:28px;}
+.load-bar{width:200px; height:6px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden;}
+.load-bar-fill{height:100%; width:0%; background:linear-gradient(135deg,var(--accent),var(--purple)); transition:width 0.3s var(--ease);}
+.load-text{font-size:11px; color:var(--muted);}
+#errorScreen{
+  position:fixed; inset:0; z-index:60; background:var(--bg);
+  display:none; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px; text-align:center;
+}
+#errorScreen p{color:var(--muted); font-size:13px; max-width:320px;}
+@media(max-width:400px){.char-grid{grid-template-columns:repeat(2,1fr);}.logo-text{font-size:26px;}}
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">
+  <div class="logo-text">ZABERZ RUNNER</div>
+  <div class="logo-sub">Loading 3D World...</div>
+  <div class="load-bar"><div class="load-bar-fill" id="loadBarFill"></div></div>
+  <div class="load-text" id="loadText">Fetching 3D engine...</div>
+</div>
+
+<div id="errorScreen">
+  <div class="logo-text">ZABERZ RUNNER</div>
+  <p>Could not load the 3D engine — please check your internet connection and refresh the page.</p>
+  <a href="../index.html" class="btn btn-secondary" style="width:auto;">Back to Home</a>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+<a href="../index.html" class="back-btn">← Home</a>
+
+<div id="uiLayer">
+  <div class="screen" id="menuScreen">
+    <div class="logo-text">ZABERZ RUNNER</div>
+    <div class="logo-sub">3D Endless Runner</div>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-val" id="menuBest">0</span><span class="stat-lbl">Best</span></div>
+      <div class="stat-item"><span class="stat-val" id="menuCoins">0</span><span class="stat-lbl">🪙 Coins</span></div>
+      <div class="stat-item"><span class="stat-val" id="menuGems">0</span><span class="stat-lbl">💎 Gems</span></div>
+      <div class="stat-item"><span class="stat-val" id="menuLevel">1</span><span class="stat-lbl">Level</span></div>
+    </div>
+    <button class="btn btn-primary" id="playBtn">▶ Play</button>
+    <button class="btn btn-secondary" id="charBtn">🎭 Characters</button>
+    <button class="btn btn-secondary" id="missionBtn">📋 Missions</button>
+  </div>
+
+  <div class="screen" id="charScreen">
+    <h3>🎭 Characters</h3>
+    <div class="char-grid" id="charGrid"></div>
+    <button class="btn btn-secondary btn-small" data-back>← Back</button>
+  </div>
+
+  <div class="screen" id="missionScreen">
+    <h3>📋 Daily Missions</h3>
+    <div id="missionList" style="width:100%;text-align:left;font-size:11px;color:var(--muted);"></div>
+    <button class="btn btn-secondary btn-small" data-back>← Back</button>
+  </div>
+
+  <div class="screen" id="gameOverScreen">
+    <h3>💀 Game Over!</h3>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-val" id="goScore">0</span><span class="stat-lbl">Score</span></div>
+      <div class="stat-item"><span class="stat-val" id="goCoins">0</span><span class="stat-lbl">🪙 Coins</span></div>
+      <div class="stat-item"><span class="stat-val" id="goDistance">0m</span><span class="stat-lbl">Dist</span></div>
+    </div>
+    <button class="btn btn-primary" id="playAgainBtn">▶ Play Again</button>
+    <button class="btn btn-secondary" id="menuBtn">🏠 Menu</button>
+  </div>
+
+  <div id="gameHUD" style="display:none;position:fixed;top:10px;left:50%;transform:translateX(-50%);gap:10px;z-index:15;align-items:center;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--text);font-weight:700;font-size:12px;backdrop-filter:blur(8px);"><span id="hudScore">0</span></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--gold);font-weight:700;font-size:12px;backdrop-filter:blur(8px);">🪙 <span id="hudCoins">0</span></div>
+    <div id="hudPowerup" style="background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 8px;backdrop-filter:blur(8px);display:none;align-items:center;gap:5px;">
+      <span id="hudPowerupIcon" style="font-size:12px;"></span>
+      <div style="width:50px;height:6px;background:rgba(0,0,0,0.5);border-radius:4px;"><div id="hudPowerupFill" style="height:100%;width:100%;background:var(--accent);border-radius:4px;"></div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="zaberz-runner-3d.js"></script>
+</body>
+</html>
